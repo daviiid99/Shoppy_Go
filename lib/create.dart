@@ -63,6 +63,8 @@ class _CreateState extends State<Create>{
 
   addProductToList(String producto) async {
 
+    print(products);
+
     // Transform producto to lowercase
     var miProducto = producto.toLowerCase(); // User might use different combinations
     var splittedList = [];

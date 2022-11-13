@@ -6,6 +6,7 @@ import 'notebook.dart';
 import 'dart:convert';
 import 'dart:io';
 import "Glosario.dart";
+import 'Register.dart';
 
 class Home extends StatefulWidget{
   _HomeState createState() => _HomeState();
@@ -15,6 +16,7 @@ class _HomeState extends State<Home>{
 
   String jsonFile = "products.json";
   String jsonString = "";
+  String version = "1.2";
 
   Map<dynamic, dynamic> products = {
 
@@ -211,8 +213,11 @@ class _HomeState extends State<Home>{
 
     if (file.existsSync()){
       // Decode file
-      jsonString = file.readAsStringSync();
-      products = jsonDecode(jsonString);
+      setState(()  async {
+        jsonString = file.readAsStringSync();
+        products = jsonDecode(jsonString);
+      });
+
     } else {
       writeJson();
     }
@@ -232,6 +237,7 @@ class _HomeState extends State<Home>{
     return Scaffold(
         floatingActionButtonLocation: FloatingActionButtonLocation.miniEndFloat,
         appBar: AppBar(
+          title: Text("v$version", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 15),),
           elevation: 0.0,
           backgroundColor: Colors.deepOrange,
       ),
@@ -377,11 +383,10 @@ class _HomeState extends State<Home>{
                                       SizedBox(height: 5,),
                                       Text("Añade tus productos\n", style: TextStyle(fontSize: 15),),
                                       ElevatedButton(
-                                        child: Text("Proximamente", style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),),
+                                        child: Text("Añadir Producto", style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),),
                                         onPressed: () {
-                                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                                              content: Text("¡Esta función estará disponible\nen una futura actualización!")
-                                          ));
+                                          Navigator.push(context,
+                                              MaterialPageRoute(builder: (context) => Register(products)));
                                         },
                                       )
                                     ]

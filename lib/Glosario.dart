@@ -29,6 +29,7 @@ class _GlosarioState extends State<Glosario>{
   Map<dynamic, dynamic> myNotes = {};
   List<String> categorias = [];
   List<int> categoriaIndex = [];
+  List<String> categoriaImages = [];
 
   Future<String> get _LocalFilePath async {
     final dir = await getApplicationDocumentsDirectory();
@@ -60,12 +61,13 @@ class _GlosarioState extends State<Glosario>{
       index ++;
       count = 0;
       for (String subKey in products[key].keys){
+        categoriaImages.add(index.toString());
+        categoriaImages[index] = products[key][subKey];
         count ++;
         setState(() async {
           categoriaIndex.add(index);
           categoriaIndex[index] = count;
         });
-
       }
     }
   }
@@ -83,6 +85,12 @@ class _GlosarioState extends State<Glosario>{
   @override
   Widget build(BuildContext context){
     return Scaffold(
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        title: Text("Glosario de productos", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20), textAlign: TextAlign.center,),
+        backgroundColor: Colors.deepOrange,
+        centerTitle: true,
+      ),
       backgroundColor: Colors.deepOrange,
       body: Column(
         children: [
@@ -103,7 +111,7 @@ class _GlosarioState extends State<Glosario>{
                                   width: 60,
                                   height: 60,
                                   child: ClipOval(
-                                    child: Image.asset("assets/images/read_notes.png"),
+                                    child: Image.asset(categoriaImages[index]),
                                   )
                               ),
                             ),
