@@ -232,8 +232,6 @@ class _HomeState extends State<Home>{
   void initState() {
     // Set full screen mode for an inmersive experience
     readJson();
-    print("MI MAPA DE PRODUCTOS");
-    print(products);
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge, overlays: []);
     super.initState();
   }

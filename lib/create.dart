@@ -183,6 +183,7 @@ class _CreateState extends State<Create>{
                 content: SingleChildScrollView(
                     child: Column(
                       children: [
+                        Text("\nGuardando Nota\n", style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold, ), textAlign: TextAlign.center,),
                         TextFormField(
                           style: TextStyle(color: Colors.black),
                           decoration: InputDecoration(
@@ -201,8 +202,11 @@ class _CreateState extends State<Create>{
                               ),
                               border: OutlineInputBorder(
                               ),
-                              labelText: ""), cursorColor: Colors.white,
+                              labelText: "Elige un nombre"), cursorColor: Colors.white, textAlign: TextAlign.center,
                           controller: noteName,
+                          onTap: (){
+                            noteName.text = "";
+                          },
                         ),
 
                         TextButton(

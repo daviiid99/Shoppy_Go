@@ -30,6 +30,7 @@ class _GlosarioState extends State<Glosario>{
   List<String> categorias = [];
   List<int> categoriaIndex = [];
   List<String> categoriaImages = [];
+  final noteName = TextEditingController();
 
   Future<String> get _LocalFilePath async {
     final dir = await getApplicationDocumentsDirectory();
@@ -52,6 +53,80 @@ class _GlosarioState extends State<Glosario>{
 
       }
     }
+  }
+
+  updateMap(String categoria){
+    // Add new key to map
+    products[categoria] = {};
+
+    // Update file
+    jsonString = jsonEncode(products);
+    File("/data/user/0/com.daviiid99.shoppy_go/app_flutter/products.json").writeAsString(jsonString);
+  }
+
+  addNewCategory() async {
+    showDialog(
+        context: context,
+        builder: (context)
+        {
+          return StatefulBuilder(
+              builder: (context, setState) {
+                return AlertDialog(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(15.0))),
+                    backgroundColor: Colors.transparent,
+                    content: SingleChildScrollView(
+                        child: Column(
+                          children: [
+                            Text("Nombre de Categoría\n", style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold, ), textAlign: TextAlign.center,),
+                            TextFormField(
+                              style: TextStyle(color: Colors.black),
+                              decoration: InputDecoration(
+                                  fillColor: Colors.white,
+                                  filled: true,
+                                  disabledBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                          color: Colors.white, width: 2.0),
+                                      borderRadius: BorderRadius.circular(12.0)
+                                  ),
+
+                                  enabledBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                          color: Colors.white, width: 2.0),
+                                      borderRadius: BorderRadius.circular(12.0)
+                                  ),
+                                  border: OutlineInputBorder(
+                                  ),
+                                  labelText: "Elige un nombre"), cursorColor: Colors.white,
+                              controller: noteName,
+                              onTap: (){
+                                setState(() async {
+                                  noteName.text = "";
+                                });
+                              },
+
+                            ),
+
+                            TextButton(
+                              child: Text("Guardar"),
+                              onPressed: ()  async{
+                                updateMap(noteName.text);
+                                int index = 2;
+                                while(index > 0){
+                                  index -=1;
+                                  Navigator.pop(context);
+                                }
+                              },
+                            )
+
+                          ],
+                        )
+                    )
+                );
+              }
+          );
+        }
+    );
   }
 
   indexCategories(){
@@ -78,7 +153,6 @@ class _GlosarioState extends State<Glosario>{
     setState(() async {
       await updateCategories();
       indexCategories();
-      print(products);
     });
     super.initState();
   }
@@ -136,6 +210,25 @@ class _GlosarioState extends State<Glosario>{
       ),
         ],
 
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        onTap: (index){
+
+        },
+        backgroundColor: Colors.transparent,
+        items: <BottomNavigationBarItem> [
+          BottomNavigationBarItem(
+              label: "",
+              backgroundColor: Colors.transparent,
+              icon: IconButton(
+                icon:  Icon(Icons.create_rounded, color: Colors.white,),
+                onPressed: () {
+                  addNewCategory();
+
+                },
+              )
+          )
+        ],
       ),
     );
   }
