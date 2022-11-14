@@ -7,6 +7,8 @@ import 'dart:convert';
 import 'dart:io';
 import "Glosario.dart";
 import 'Register.dart';
+import 'Container.dart';
+import 'package:restart_app/restart_app.dart';
 
 class Home extends StatefulWidget{
   _HomeState createState() => _HomeState();
@@ -219,7 +221,9 @@ class _HomeState extends State<Home>{
       });
 
     } else {
-      writeJson();
+      var setup = new Setup(false, products); // Create setup
+      await setup.decodeImagesToBase64(); // Decode images to base64
+      Restart.restartApp();
     }
 
   }
@@ -228,6 +232,8 @@ class _HomeState extends State<Home>{
   void initState() {
     // Set full screen mode for an inmersive experience
     readJson();
+    print("MI MAPA DE PRODUCTOS");
+    print(products);
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge, overlays: []);
     super.initState();
   }

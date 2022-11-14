@@ -78,6 +78,7 @@ class _GlosarioState extends State<Glosario>{
     setState(() async {
       await updateCategories();
       indexCategories();
+      print(products);
     });
     super.initState();
   }
@@ -111,7 +112,7 @@ class _GlosarioState extends State<Glosario>{
                                   width: 60,
                                   height: 60,
                                   child: ClipOval(
-                                    child: Image.asset(categoriaImages[index]),
+                                    child: Image.file(File(categoriaImages[index])),
                                   )
                               ),
                             ),

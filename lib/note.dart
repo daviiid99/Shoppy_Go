@@ -84,6 +84,7 @@ class _NoteState extends State<Note>{
   @override
   void initState() {
     decodeCurrentNote();
+    print(products);
     super.initState();
   }
 
@@ -125,7 +126,7 @@ class _NoteState extends State<Note>{
                             width: 60,
                             height: 60,
                             child: ClipOval(
-                              child: Image.asset(currentImages[index]),
+                              child: Image.file(File(currentImages[index])),
                             )
                         ),
                       ),

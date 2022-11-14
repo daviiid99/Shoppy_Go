@@ -336,7 +336,7 @@ class _CreateState extends State<Create>{
                   width: 60,
                   height: 60,
                   child: ClipOval(
-                    child: Image.asset(currentImages[index]),
+                    child: Image.file(File(currentImages[index])),
                     )
                   ),
                 ),

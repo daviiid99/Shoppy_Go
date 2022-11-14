@@ -30,6 +30,7 @@ class _CategoriaState extends State<Categoria>{
 
   List<String> misProductos = [];
   List<String> misFotos = [];
+  String jsonString = "";
 
   updateProductLists() async {
     for (String key in products[miCategoria].keys){
@@ -40,6 +41,20 @@ class _CategoriaState extends State<Categoria>{
         }
       });
     }
+  }
+
+  writeJson() async {
+    jsonString = jsonEncode(products);
+    File("/data/user/0/com.daviiid99.shoppy_go/app_flutter/products.json").writeAsString(jsonString);
+  }
+
+  removeProductFromList(String product, int indice) async {
+      setState(() async {
+        misProductos.remove(misProductos[indice]);
+        misFotos.remove(misFotos[indice]);
+        products[miCategoria].remove(product);
+        writeJson();
+      });
   }
 
   @override
@@ -80,7 +95,7 @@ class _CategoriaState extends State<Categoria>{
                               width: 60,
                               height: 60,
                               child: ClipOval(
-                                child: Image.asset(misFotos[index]),
+                                child: Image.file(File(misFotos[index])),
                               )
                           ),
                         ),
@@ -89,6 +104,17 @@ class _CategoriaState extends State<Categoria>{
                             fontWeight: FontWeight.bold),),
                         onTap: (){
                         },
+                        trailing: Wrap(
+
+                          children : [
+                            IconButton(
+                                onPressed: (){
+                                  removeProductFromList(misProductos[index], index);
+                                },
+                                icon: Icon(Icons.remove_circle, color: Colors.red,)),
+                          ],
+
+                        ),
 
                       ));
                 }
