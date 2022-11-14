@@ -43,18 +43,24 @@ class _NotebookState extends State<Notebook>{
     final file = await _LocalFile;
 
     // Read json file
-    jsonString = file.readAsStringSync();
+    try {
 
-    // Decode map
-    myNotes = await jsonDecode(jsonString);
+      jsonString = file.readAsStringSync();
 
-    // Generate cards
-    for (String key in myNotes.keys){
-      if (notesTitles.contains(key) == false){
-        setState(() async {
-          notesTitles.add(key);
-        });
+      // Decode map
+      myNotes = await jsonDecode(jsonString);
+
+      // Generate cards
+      for (String key in myNotes.keys){
+        if (notesTitles.contains(key) == false){
+          setState(() async {
+            notesTitles.add(key);
+          });
+        }
       }
+
+    } catch (e){
+      print(e);
     }
   }
 
@@ -137,7 +143,7 @@ class _NotebookState extends State<Notebook>{
                                                 onPressed: () {
                                                   Navigator.push(
                                                       context,
-                                                  MaterialPageRoute(builder: (context) => Note(notesTitles[index], myNotes)));
+                                                  MaterialPageRoute(builder: (context) => Note(notesTitles[index], myNotes, products)));
                                                 },
                                               ),
 

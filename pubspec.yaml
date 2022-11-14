@@ -70,6 +70,7 @@ flutter:
 
   assets:
     - assets/icon/banner.png
+    - assets/images/check.png
     - assets/icon/icon.png
     - assets/images/create_note.png
     - assets/images/read_notes.png

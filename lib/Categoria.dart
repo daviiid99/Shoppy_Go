@@ -54,6 +54,12 @@ class _CategoriaState extends State<Categoria>{
   @override
   Widget build(BuildContext context){
     return Scaffold(
+        appBar: AppBar(
+          automaticallyImplyLeading: false,
+          title: Text(miCategoria, style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20), textAlign: TextAlign.center,),
+          backgroundColor: Colors.deepOrange,
+          centerTitle: true,
+        ),
       backgroundColor: Colors.deepOrange,
       body: Column(
         children: [

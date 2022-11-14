@@ -62,9 +62,6 @@ class _CreateState extends State<Create>{
   }
 
   addProductToList(String producto) async {
-
-    print(products);
-
     // Transform producto to lowercase
     var miProducto = producto.toLowerCase(); // User might use different combinations
     var splittedList = [];
@@ -238,8 +235,6 @@ class _CreateState extends State<Create>{
   encodeProductsIntoMap(String note) {
     // Our map have to represent the current status of our products list
 
-    print("inicio de escritura");
-
     Map<dynamic, dynamic> tempMap = {};
 
       for (String product in currentFood){
@@ -252,8 +247,6 @@ class _CreateState extends State<Create>{
 
       myNotes[note] = {};
       myNotes[note].addEntries(tempMap.entries);
-      print("Mapa definitivo");
-      print(myNotes);
 
     writeJson();
   }
@@ -264,7 +257,6 @@ class _CreateState extends State<Create>{
 
     // Encode current map into a string
     jsonString = jsonEncode(myNotes);
-    print("Este es el mapa $jsonString");
 
     // Save current map into a json file on internal directory
     file.writeAsString(jsonString);
@@ -289,8 +281,6 @@ class _CreateState extends State<Create>{
 
     setState(() async {
       await readJson();
-      print(myNotes);
-
     });
 
 
