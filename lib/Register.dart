@@ -138,7 +138,7 @@ class _RegisterState extends State<Register> {
                               onTap: (){
                                 setState(() async {
                                   imageName.text = "";
-                                  imageSelector(noteName.text);
+                                  imageSelector(noteName.text.toLowerCase());
                                 });
                               },
 
@@ -149,9 +149,9 @@ class _RegisterState extends State<Register> {
                               onPressed: ()  async{
                                 setState(() async {
                                   if (image.isEmpty){
-                                    await addProductToMap(noteName.text, "");
+                                    await addProductToMap(noteName.text.toLowerCase(), "");
                                   } else {
-                                    await addProductToMap(noteName.text, image);
+                                    await addProductToMap(noteName.text.toLowerCase(), image);
                                   }
 
                                   var index = 2;
