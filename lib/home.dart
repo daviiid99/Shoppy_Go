@@ -9,6 +9,7 @@ import "Glosario.dart";
 import 'Register.dart';
 import 'Container.dart';
 import 'package:restart_app/restart_app.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class Home extends StatefulWidget{
   _HomeState createState() => _HomeState();
@@ -18,7 +19,7 @@ class _HomeState extends State<Home>{
 
   String jsonFile = "products.json";
   String jsonString = "";
-  String version = "1.4";
+  String version = "1.5";
 
   Map<dynamic, dynamic> products = {
 
@@ -191,6 +192,11 @@ class _HomeState extends State<Home>{
     },
   };
 
+  _launchURL(String url) async {
+    final Uri _url = Uri.parse(url);
+    await launchUrl(_url,mode: LaunchMode.externalApplication);
+  }
+
   Future<String> get _LocalFilePath async {
     final dir = await getApplicationDocumentsDirectory();
     return dir.path;
@@ -244,7 +250,7 @@ class _HomeState extends State<Home>{
     return Scaffold(
         floatingActionButtonLocation: FloatingActionButtonLocation.miniEndFloat,
         appBar: AppBar(
-          title: Text("v$version", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 15),),
+          title: Row(children : [ Text("v$version", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 15),),  Spacer(), TextButton.icon( onPressed : (){ _launchURL("https://play.google.com/store/apps/details?id=com.daviiid99.shoppy_go");}, style: TextButton.styleFrom(backgroundColor: Colors.deepOrange), icon: Icon(Icons.play_arrow_rounded, color: Colors.white,), label: Text(""), )],),
           elevation: 0.0,
           backgroundColor: Colors.deepOrange,
       ),
@@ -254,7 +260,7 @@ class _HomeState extends State<Home>{
           Image.asset("assets/icon/banner.png"),
           SizedBox(height: 30,),
           Text(
-              "Recomendaciones",
+              "¿Qué quieres hacer?",
             style: TextStyle(
               fontSize: 35,
               fontWeight: FontWeight.bold,
