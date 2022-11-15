@@ -18,7 +18,7 @@ class _HomeState extends State<Home>{
 
   String jsonFile = "products.json";
   String jsonString = "";
-  String version = "1.2";
+  String version = "1.4";
 
   Map<dynamic, dynamic> products = {
 
@@ -221,6 +221,9 @@ class _HomeState extends State<Home>{
       });
 
     } else {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text("Espera un momento...")
+      ));
       var setup = new Setup(false, products); // Create setup
       await setup.decodeImagesToBase64(); // Decode images to base64
       Restart.restartApp();

@@ -48,6 +48,13 @@ class _CategoriaState extends State<Categoria>{
     File("/data/user/0/com.daviiid99.shoppy_go/app_flutter/products.json").writeAsString(jsonString);
   }
 
+  removeCategory() async {
+    setState(() async {
+      products.remove(miCategoria);
+      writeJson();
+    });
+  }
+
   removeProductFromList(String product, int indice) async {
       setState(() async {
         misProductos.remove(misProductos[indice]);
@@ -123,7 +130,39 @@ class _CategoriaState extends State<Categoria>{
       )
     ),
     ]
-    )
+    ),
+
+        bottomNavigationBar: BottomNavigationBar(
+        onTap: (index){
+          removeCategory();
+          int index = 2 ;
+          while(index > 0){
+            Navigator.pop(context);
+            index -=1;
+          }
+
+          },
+          backgroundColor: Colors.transparent,
+          items: <BottomNavigationBarItem> [
+            BottomNavigationBarItem(
+              label: "",
+              backgroundColor: Colors.transparent,
+              icon: IconButton(
+                icon:  Icon(Icons.delete_rounded, color: Colors.white,),
+                onPressed: () {
+                  removeCategory();
+                  int index = 2 ;
+                  while(index > 0){
+                    Navigator.pop(context);
+                    index -=1;
+                  }
+
+
+                },
+              )
+            )
+          ],
+    ),
     );
   }
 }
