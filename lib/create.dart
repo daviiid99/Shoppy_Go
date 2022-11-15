@@ -185,6 +185,7 @@ class _CreateState extends State<Create>{
                       children: [
                         Text("\nGuardando Nota\n", style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold, ), textAlign: TextAlign.center,),
                         TextFormField(
+                          textAlign: TextAlign.center,
                           style: TextStyle(color: Colors.black),
                           decoration: InputDecoration(
                               fillColor: Colors.white,
@@ -202,7 +203,7 @@ class _CreateState extends State<Create>{
                               ),
                               border: OutlineInputBorder(
                               ),
-                              labelText: "Elige un nombre"), cursorColor: Colors.white, textAlign: TextAlign.center,
+                              hintText: "Elige un nombre"), cursorColor: Colors.white, textAlignVertical: TextAlignVertical.center,
                           controller: noteName,
                           onTap: (){
                             noteName.text = "";
@@ -385,6 +386,7 @@ class _CreateState extends State<Create>{
           ),
 
           TextFormField(
+            textAlign: TextAlign.center,
             style: TextStyle(color: Colors.black),
             decoration: InputDecoration(
                 fillColor: Colors.white,
@@ -398,7 +400,7 @@ class _CreateState extends State<Create>{
                 ),
                 border: OutlineInputBorder(
                 ),
-                labelText: ""), cursorColor: Colors.white,
+                hintText: "Escribe un producto"), cursorColor: Colors.white,
             controller: product,
             onTap: (){
                 product.text = "";
@@ -421,7 +423,6 @@ class _CreateState extends State<Create>{
               child: Text("Añadir", style: TextStyle(color: Colors.white),),
               onPressed: () async{
                 await addProductToList(product.text);
-                product.text =  "Escribe un producto";
                 FocusManager.instance.primaryFocus?.unfocus();
               },
             ),

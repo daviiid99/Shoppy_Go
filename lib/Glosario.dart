@@ -80,6 +80,7 @@ class _GlosarioState extends State<Glosario>{
                           children: [
                             Text("Nombre de Categoría\n", style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold, ), textAlign: TextAlign.center,),
                             TextFormField(
+                              textAlign: TextAlign.center,
                               style: TextStyle(color: Colors.black),
                               decoration: InputDecoration(
                                   fillColor: Colors.white,
@@ -97,7 +98,7 @@ class _GlosarioState extends State<Glosario>{
                                   ),
                                   border: OutlineInputBorder(
                                   ),
-                                  labelText: "Elige un nombre"), cursorColor: Colors.white,
+                                  hintText: "Elige un nombre"), cursorColor: Colors.white, textAlignVertical: TextAlignVertical.center,
                               controller: noteName,
                               onTap: (){
                                 setState(() async {

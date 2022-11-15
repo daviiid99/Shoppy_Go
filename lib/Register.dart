@@ -87,6 +87,7 @@ class _RegisterState extends State<Register> {
                           children: [
                             Text("Nombre del producto\n", style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold, ), textAlign: TextAlign.center,),
                             TextFormField(
+                              textAlign: TextAlign.center,
                               style: TextStyle(color: Colors.black),
                               decoration: InputDecoration(
                                   fillColor: Colors.white,
@@ -104,18 +105,17 @@ class _RegisterState extends State<Register> {
                                   ),
                                   border: OutlineInputBorder(
                                   ),
-                                  labelText: "Elige un nombre"), cursorColor: Colors.white,
+                                  hintText: "Elige un nombre"), cursorColor: Colors.white, textAlignVertical: TextAlignVertical.center,
                               controller: noteName,
                               onTap: (){
                                 setState(() async {
-                                  noteName.text = "";
                                 });
                               },
 
                             ),
                             Text("\nImagen del producto\n", style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold, ), textAlign: TextAlign.center,),
-
                             TextFormField(
+                              textAlign: TextAlign.center,
                               style: TextStyle(color: Colors.black),
                               decoration: InputDecoration(
                                   fillColor: Colors.white,
@@ -133,11 +133,10 @@ class _RegisterState extends State<Register> {
                                   ),
                                   border: OutlineInputBorder(
                                   ),
-                                  labelText: "Elige una imagen"), cursorColor: Colors.white,
+                                  hintText: "Elige una imagen"), cursorColor: Colors.white, textAlignVertical: TextAlignVertical.center,
                               controller: imageName,
                               onTap: (){
                                 setState(() async {
-                                  imageName.text = "";
                                   imageSelector(noteName.text.toLowerCase());
                                 });
                               },
