@@ -197,6 +197,11 @@ flutter:
     - assets/products/pan/barra.jpg
     - assets/products/pan/bollos.png
     - assets/products/pan/molde.png
+    - assets/products/frutas/pomelo.png
+    - assets/products/frutas/membrillo.png
+    - assets/products/vegetales/champinones.png
+    - assets/products/vegetales/setas.jpg
+    - assets/products/carnes/carne_picada.jpeg
 
   # To add assets to your application, add an assets section, like this:
   # assets:

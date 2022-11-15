@@ -36,6 +36,7 @@ class Setup extends StatefulWidget {
     },
 
     "carnes" : {
+      "carne picada" : "/data/user/0/com.daviiid99.shoppy_go/app_flutter/carne_picada.jpeg",
       "cerdo" : "/data/user/0/com.daviiid99.shoppy_go/app_flutter/pork.png",
       "pollo" : "/data/user/0/com.daviiid99.shoppy_go/app_flutter/chicken.png",
       "serrano" : "/data/user/0/com.daviiid99.shoppy_go/app_flutter/serrano.jpg",
@@ -73,11 +74,13 @@ class Setup extends StatefulWidget {
       "mango" : "/data/user/0/com.daviiid99.shoppy_go/app_flutter/mango.png",
       "manzana" : "/data/user/0/com.daviiid99.shoppy_go/app_flutter/manzana.png",
       "melon" : "/data/user/0/com.daviiid99.shoppy_go/app_flutter/melon.png",
+      "membrillo" : "/data/user/0/com.daviiid99.shoppy_go/app_flutter/membrillo.png",
       "mermelada" : "/data/user/0/com.daviiid99.shoppy_go/app_flutter/mermelada.png",
       "naranja" : "/data/user/0/com.daviiid99.shoppy_go/app_flutter/naranja.png",
       "paraguayo" : "/data/user/0/com.daviiid99.shoppy_go/app_flutter/paraguayo.jpg",
       "pera" : "/data/user/0/com.daviiid99.shoppy_go/app_flutter/pera.png",
       "piña" : "/data/user/0/com.daviiid99.shoppy_go/app_flutter/piña.png",
+      "pomelos" : "/data/user/0/com.daviiid99.shoppy_go/app_flutter/pomelo.png",
       "platanos" : "/data/user/0/com.daviiid99.shoppy_go/app_flutter/platanos.png",
       "sandia" : "/data/user/0/com.daviiid99.shoppy_go/app_flutter/sandia.png",
       "uvas" : "/data/user/0/com.daviiid99.shoppy_go/app_flutter/uvas.png",
@@ -184,6 +187,11 @@ class Setup extends StatefulWidget {
     "shampoos" : {
       "champu" : "/data/user/0/com.daviiid99.shoppy_go/app_flutter/shampoo.png",
       "gel" : "/data/user/0/com.daviiid99.shoppy_go/app_flutter/gel.png",
+    },
+
+    "vegetales" :{
+      "champiñones" : "/data/user/0/com.daviiid99.shoppy_go/app_flutter/champinones.png",
+      "setas" : "/data/user/0/com.daviiid99.shoppy_go/app_flutter/setas.jpg"
     },
 
     "verduras" : {

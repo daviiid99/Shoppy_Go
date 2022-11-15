@@ -31,6 +31,7 @@ class _HomeState extends State<Home>{
     },
 
     "carnes" : {
+      "carne picada" : "assets/products/carnes/carne_picada.jpeg",
       "cerdo" : "assets/products/carnes/pork.png",
       "pollo" : "assets/products/carnes/chicken.png",
       "serrano" : "assets/products/carnes/serrano.jpg",
@@ -68,11 +69,13 @@ class _HomeState extends State<Home>{
       "mango" : "assets/products/frutas/mango.png",
       "manzana" : "assets/products/frutas/manzana.png",
       "melon" : "assets/products/frutas/melon.png",
+      "membrillo" : "assets/products/frutas/membrillo.png",
       "mermelada" : "assets/products/frutas/mermelada.png",
       "naranja" : "assets/products/frutas/naranja.png",
       "paraguayo" : "assets/products/frutas/paraguayo.jpg",
       "pera" : "assets/products/frutas/pera.png",
       "piña" : "assets/products/frutas/piña.png",
+      "pomelos" : "assets/products/frutas/pomelo.png",
       "platanos" : "assets/products/frutas/platanos.png",
       "sandia" : "assets/products/frutas/sandia.png",
       "uvas" : "assets/products/frutas/uvas.png",
@@ -179,6 +182,11 @@ class _HomeState extends State<Home>{
     "shampoos" : {
       "champu" : "assets/products/shampoos/shampoo.png",
       "gel" : "assets/products/shampoos/gel.png",
+    },
+
+    "vegetales" :{
+      "champiñones" : "assets/products/vegetales/champinones.png",
+      "setas" : "assets/products/vegetales/setas.jpg"
     },
 
     "verduras" : {
