@@ -37,9 +37,13 @@ class _CategoriaState extends State<Categoria>{
       setState(() async {
         if (misProductos.contains(key) == false){
           misProductos.add(key);
-          misFotos.add(products[miCategoria][key]);
         }
       });
+    }
+    misProductos.sort();
+
+    for(String producto in misProductos){
+      misFotos.add(products[miCategoria][producto]);
     }
   }
 

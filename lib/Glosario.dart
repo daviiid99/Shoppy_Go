@@ -50,9 +50,9 @@ class _GlosarioState extends State<Glosario>{
         setState(() async {
           categorias.add(key);
         });
-
       }
     }
+    categorias.sort();
   }
 
   updateMap(String categoria){
@@ -133,10 +133,10 @@ class _GlosarioState extends State<Glosario>{
   indexCategories(){
     int count = 0;
     int index = -1;
-    for (String key in products.keys){
+    for (String key in categorias){
       index ++;
       count = 0;
-      for (String subKey in products[key].keys){
+      for (String subKey in products[categorias[index]].keys){
         categoriaImages.add(index.toString());
         categoriaImages[index] = products[key][subKey];
         count ++;

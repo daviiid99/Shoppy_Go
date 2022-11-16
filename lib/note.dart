@@ -45,12 +45,16 @@ class _NoteState extends State<Note>{
         for(String producto in myNotes[nota].keys){
           setState(() async {
             currentProducts.add(producto);
-            currentAmounts.add(myNotes[nota][producto][1]);
-            currentImages.add(myNotes[nota][producto][0]);
           });
 
         }
       }
+    }
+    currentProducts.sort();
+
+    for (String producto in currentProducts){
+      currentImages.add(myNotes[myNote][producto][0]);
+      currentAmounts.add(myNotes[myNote][producto][1]);
     }
   }
 
