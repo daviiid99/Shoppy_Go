@@ -59,6 +59,8 @@ class _NotebookState extends State<Notebook>{
         }
       }
 
+      notesTitles.sort();
+
     } catch (e){
       print(e);
     }
