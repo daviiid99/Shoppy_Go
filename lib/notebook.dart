@@ -66,8 +66,73 @@ class _NotebookState extends State<Notebook>{
     }
   }
 
+
+  confirmRemoval(String nota) async {
+    showDialog(
+        context: context,
+        builder: (context)
+        {
+          return StatefulBuilder(
+              builder: (context, setState) {
+                return AlertDialog(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(15.0))),
+                    backgroundColor: Colors.transparent,
+                    content: SingleChildScrollView(
+                        child: Column(
+                          children: [
+                            Text("\n¿Quieres borrar esta nota?", style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold, ), textAlign: TextAlign.center,),
+                            Text("\nConfirmas el borrado de la nota $nota \n", style: TextStyle(color: Colors.white, fontSize: 10, fontWeight: FontWeight.bold, ), textAlign: TextAlign.center,),
+
+                            FittedBox(
+                              child : Column (
+                                children : [
+                            TextButton(
+                              style: TextButton.styleFrom(
+                                backgroundColor: Colors.blueAccent
+                              ),
+                              child: Text("Borrar", style: TextStyle(color: Colors.white),),
+                              onPressed: ()  async{
+                                setState(() async {
+                                  await removeNote(nota);
+                                  Navigator.pop(context);
+                                });
+
+                              },
+                            ),
+                            TextButton(
+                              style: TextButton.styleFrom(
+                                backgroundColor: Colors.redAccent
+                              ),
+                              child: Text("Cancelar", style: TextStyle(color: Colors.white),),
+                              onPressed: ()  async{
+                                setState(() async {
+                                  Navigator.pop(context);
+                                });
+
+                              },
+                            )
+                                ]
+                              )
+                            )
+
+                          ],
+                        )
+                    )
+                );
+              }
+          );
+        }
+    );
+  }
+
   removeNote(String nota) async {
-    myNotes.remove(nota);
+
+    setState(() async {
+      myNotes.remove(nota);
+      var indice = notesTitles.indexOf(nota);
+      notesTitles.remove(notesTitles[indice]);
+    });
 
     // Get json file source
     final file = await _LocalFile;
@@ -158,8 +223,7 @@ class _NotebookState extends State<Notebook>{
                                                 child: Text("Borrar Nota", style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),),
                                                 onPressed: () {
                                                   setState(() async {
-                                                    removeNote(notesTitles[index]);
-                                                    notesTitles.remove(notesTitles[index]);
+                                                    confirmRemoval(notesTitles[index]);
                                                   });
                                                 },
                                               )
