@@ -55,6 +55,9 @@ class _RegisterState extends State<Register> {
 
       }
     }
+    setState(() async {
+      categories.sort();
+    });
   }
 
   addProductToMap (String product, String image) async {

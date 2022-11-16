@@ -52,7 +52,11 @@ class _GlosarioState extends State<Glosario>{
         });
       }
     }
-    categorias.sort();
+
+    setState(() async {
+      categorias.sort();
+    });
+
   }
 
   updateMap(String categoria){
