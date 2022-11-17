@@ -1,8 +1,12 @@
 import 'dart:convert';
-
+import 'package:pdf/pdf.dart';
+import 'package:pdf/widgets.dart' as pw;
 import 'package:flutter/material.dart';
 import 'notebook.dart';
 import 'dart:io';
+import 'package:share/share.dart';
+import 'dart:typed_data';
+import 'package:flutter/services.dart';
 
 class Note extends StatefulWidget{
   @override
@@ -72,6 +76,60 @@ class _NoteState extends State<Note>{
         currentAmounts[indice]  -=1 ;
       });
     }
+  }
+
+  generatePdf() async {
+    // Create pdf
+    final pdf = pw.Document();
+
+    final image = File(currentImages[0]).readAsBytesSync();
+
+    // Create pdf body
+    pdf.addPage(pw.Page(build : (pw.Context context){
+      return pw.Center(
+        child: pw.Column(
+          children: [
+            pw.Text("$myNote", style: pw.TextStyle(fontSize: 30, color: PdfColors.black)),
+            pw.Text("\n--------------------------------------------------------------------\n\n\n"),
+            pw.SizedBox(height: 60),
+            pw.Text("Resumen de productos",  style: pw.TextStyle(fontSize: 20, color: PdfColors.black ),),
+            pw.SizedBox(height: 60),
+            pw.ListView.builder(itemBuilder: (context,index)
+            {
+              return pw.Column(
+              children: [
+              pw.Row(
+                  mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
+                  children: [
+                    //pw.Image(pw.MemoryImage(File(currentImages[index]).readAsBytesSync())),
+                    pw.Text(currentProducts[index]),
+                    pw.SizedBox(height: 20),
+                    pw.Text(currentAmounts[index].toString())
+                  ]
+              ),
+              ]
+
+
+              );
+
+                  }
+
+      , itemCount: currentProducts.length
+
+            )
+
+          ]
+        )
+
+      );
+    }
+    )
+    );
+
+    final file = File('sdcard/download/$myNote.pdf');
+    await file.writeAsBytes(await pdf.save());
+    Share.shareFiles([file.path], text: "text");
+
   }
 
   removeHere() async {
@@ -166,6 +224,22 @@ class _NoteState extends State<Note>{
       )
     ),
     ]
+      ),
+
+      bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: Colors.transparent,
+        items: <BottomNavigationBarItem> [
+          BottomNavigationBarItem(
+            label: "",
+            backgroundColor: Colors.transparent,
+              icon: IconButton(
+                icon : Icon(Icons.download_rounded, color: Colors.white,),
+              onPressed: (){
+                  setState(() async {
+                    generatePdf();
+                  });
+              },))
+        ],
       ),
 
     );
