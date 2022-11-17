@@ -32,8 +32,9 @@ class _NoteState extends State<Note>{
   Map<dynamic, dynamic> myNotes = {};
   Map<dynamic, dynamic> products = {};
   List<String> currentProducts = [];
-  List<int> currentAmounts = [];
+  List<double> currentAmounts = [];
   List<String>  currentImages = [];
+  List<String> currentUnits = [];
 
   _NoteState(String myNote, Map<dynamic, dynamic> myNotes, Map<dynamic, dynamic> products){
     this.myNote = myNote;
@@ -59,6 +60,7 @@ class _NoteState extends State<Note>{
     for (String producto in currentProducts){
       currentImages.add(myNotes[myNote][producto][0]);
       currentAmounts.add(myNotes[myNote][producto][1]);
+      currentUnits.add(myNotes[myNote][producto][2]);
     }
   }
 
@@ -82,8 +84,6 @@ class _NoteState extends State<Note>{
     // Create pdf
     final pdf = pw.Document();
 
-    final image = File(currentImages[0]).readAsBytesSync();
-
     // Create pdf body
     pdf.addPage(pw.Page(build : (pw.Context context){
       return pw.Center(
@@ -104,7 +104,7 @@ class _NoteState extends State<Note>{
                     //pw.Image(pw.MemoryImage(File(currentImages[index]).readAsBytesSync())),
                     pw.Text(currentProducts[index]),
                     pw.SizedBox(height: 20),
-                    pw.Text(currentAmounts[index].toString())
+                    pw.Text(currentAmounts[index].toStringAsFixed(1) + " " + currentUnits[index]),
                   ]
               ),
               ]
@@ -203,8 +203,8 @@ class _NoteState extends State<Note>{
                         ],
 
                       ),
-                      title: Text(currentProducts[index], style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
-                      subtitle: Text(currentAmounts[index].toString(), style: TextStyle(color: Colors.white),),
+                      title: Text(currentProducts[index],  style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
+                      subtitle: Text(currentAmounts[index].toStringAsFixed(1) + " " + currentUnits[index], style: TextStyle(color: Colors.white),),
 
                       onLongPress: (){
                         // Delete the entire product

@@ -43,7 +43,7 @@ class _CategoriaState extends State<Categoria>{
     misProductos.sort();
 
     for(String producto in misProductos){
-      misFotos.add(products[miCategoria][producto]);
+      misFotos.add(products[miCategoria][producto][0]);
     }
   }
 

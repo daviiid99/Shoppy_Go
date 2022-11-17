@@ -142,7 +142,7 @@ class _GlosarioState extends State<Glosario>{
       count = 0;
       for (String subKey in products[categorias[index]].keys){
         categoriaImages.add(index.toString());
-        categoriaImages[index] = products[key][subKey];
+        categoriaImages[index] = products[key][subKey][0];
         count ++;
         setState(() async {
           categoriaIndex.add(index);

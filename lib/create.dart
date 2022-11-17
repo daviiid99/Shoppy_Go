@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:ffi';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -30,26 +31,9 @@ class _CreateState extends State<Create>{
   final product = TextEditingController();
   final noteName = TextEditingController();
   List<String> currentFood = [];
-  List<int> currentFoodAmount = [];
+  List<double> currentFoodAmount = [];
   List<String> currentImages = [];
-
-  // EVERY category will handle different units (packs/g/pieces)
-  bool esLacteo = false;
-  bool esCarne = false;
-  bool esFruta = false;
-  bool esCereales = false;
-  bool esVerdura = false;
-  bool esPescado = false;
-  bool esShampoo = false;
-  bool esHigiene = false;
-  bool esHelado = false;
-  bool esLegumbre = false;
-  bool esPasta = false;
-  bool esDulces = false;
-  bool esAperitivos = false;
-  bool esRefrescos = false;
-  bool esFrutosSecos = false;
-
+  List<String> currentFoodUnits = [];
 
   Future<String> get _LocalFilePath async {
     final dir = await getApplicationDocumentsDirectory();
@@ -75,12 +59,10 @@ class _CreateState extends State<Create>{
             if (miProducto.contains(subKey)){
               setState(() async  {
                 if(currentFood.contains(producto)){
-                  final index = currentFood.indexOf(producto);
-                  currentFoodAmount[index] ++;
+                  checkProductType(producto, products[key][subKey][1], key, subKey);
                 } else {
-                  currentFood.add(producto); // Add product name
-                  currentFoodAmount.add(1); // Default value for a new product
-                  currentImages.add(products[key][subKey]); // Add image for current product
+                  checkProductType(producto, products[key][subKey][1], key, subKey);
+
                 }
               });
             }
@@ -91,6 +73,38 @@ class _CreateState extends State<Create>{
     if(!currentFood.contains(producto)){
       machineLearning(splittedList, producto);
     }
+
+  }
+
+  checkProductType(String producto, String unidad, String categoria, String product) async {
+    // We'll check if the current product match a unit
+
+    setState(() async {
+      if (currentFood.contains(producto)){
+        // The product exists
+        // We'll increase the measure
+        final index = currentFood.indexOf(producto);
+
+        if (currentFoodAmount[index].toString().contains(".") ){
+          currentFoodAmount[index] += 1.0;
+        } else {
+          currentFoodAmount[index] += 1;
+        }
+
+      }
+      else {
+        currentFood.add(producto); // Add product name
+        currentImages.add(products[categoria][product][0]); // Add image for current product
+        currentFoodUnits.add(products[categoria][product][1]); // Add unit for current product
+        if (products[categoria][product][1].contains("unidad(es)")){
+          currentFoodAmount.add(1);
+        } else if (products[categoria][product][1].contains("kg")){
+          currentFoodAmount.add(1.0);
+        } else if (products[categoria][product][1].contains("l")){
+          currentFoodAmount.add(1.0);
+        }
+      }
+    });
 
   }
 
@@ -106,7 +120,8 @@ class _CreateState extends State<Create>{
         } else {
           currentFood.add(product);
           currentFoodAmount.add(1);
-          currentImages.add(products["pan"]["barra"]); // default bread size
+          currentImages.add(products["pan"]["barra"][0]); // default bread size
+          currentFoodUnits.add(products["pan"]["barra"][1]);
         }
       });
 
@@ -120,7 +135,9 @@ class _CreateState extends State<Create>{
           currentFood.add(product);
           currentFoodAmount.add(1);
           currentImages.add(
-              products["lacteos"]["entera"]); // default bread size
+              products["lacteos"]["entera"][0]); // default bread size
+          currentFoodUnits.add(products["lacteos"]["entera"][1]);
+
         }
       });
 
@@ -132,8 +149,10 @@ class _CreateState extends State<Create>{
           currentFoodAmount[index] ++;
         } else {
           currentFood.add(product);
-          currentFoodAmount.add(1);
-          currentImages.add(products["carnes"]["pollo"]); // default bread size
+          currentFoodAmount.add(1.0);
+          currentImages.add(products["carnes"]["pollo"][0]); // default bread size
+          currentFoodUnits.add(products["carnes"]["pollo"][1]);
+
         }
       });
     }
@@ -145,26 +164,36 @@ class _CreateState extends State<Create>{
     currentFoodAmount.clear();
   }
 
-  removeProductFromList(String product, int indice, int amount) async {
+  removeProductFromList(String product, int indice, double amount, String unit) async {
     // We'll delete the choosed product or decrease his amount!
-    if (amount == 1){
+    if (amount == 0 && currentFoodUnits[indice].contains("unidad(es)") || amount <= 0.1 && currentFoodUnits[indice].contains("kg") || amount == 1 && currentFoodUnits[indice].contains("unidad(es)") || amount <= 0.1 && currentFoodUnits[indice].contains("l")){
       // We wont to remove it from list
       setState(() async {
         currentFood.remove(product);
         currentFoodAmount.remove(currentFoodAmount[indice]);
         currentImages.remove(currentImages[indice]);
+        currentFoodUnits.remove(currentFoodUnits[indice]);
       });
     } else {
       setState(() async {
-        currentFoodAmount[indice]  -=1 ;
+        if (unit.contains("kg") || unit.contains("l")){
+          currentFoodAmount[indice] -= 0.1;
+        } else {
+          currentFoodAmount[indice]  -=1 ;
+        }
       });
     }
   }
 
-  addProductFromList(String product, int indice, int amount) async {
+  addProductFromList(String product, int indice, double amount, String unit) async {
     // We'll increase the amount of the current product
+    // In this step, we'll check the type of product
     setState(() async {
-      currentFoodAmount[indice] ++;
+      if(unit.contains("kg") || unit.contains("l")){
+        currentFoodAmount[indice] += 0.1;
+      } else {
+        currentFoodAmount[indice] ++;
+      }
     });
   }
   
@@ -245,7 +274,7 @@ class _CreateState extends State<Create>{
       for (String product in currentFood){
         if (myNotes.containsKey(note) == false){
           var index = currentFood.indexOf(product);
-          tempMap[product] = [currentImages[index], currentFoodAmount[index]];
+          tempMap[product] = [currentImages[index], currentFoodAmount[index], currentFoodUnits[index]];
         } else {
         }
       }
@@ -350,14 +379,14 @@ class _CreateState extends State<Create>{
                   children : [
                     IconButton(
                         onPressed: (){
-                          removeProductFromList(currentFood[index], index, currentFoodAmount[index]);
+                          removeProductFromList(currentFood[index], index, currentFoodAmount[index], currentFoodUnits[index]);
 
                         },
                         icon: Icon(Icons.remove, color: Colors.white,)),
 
                     IconButton(
                       onPressed: (){
-                        addProductFromList(currentFood[index], index, currentFoodAmount[index]);
+                        addProductFromList(currentFood[index], index, currentFoodAmount[index], currentFoodUnits[index]);
 
 
                       }, icon: Icon(Icons.add, color: Colors.white,),),
@@ -365,7 +394,7 @@ class _CreateState extends State<Create>{
 
                 ),
                 title: Text(currentFood[index], style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
-                subtitle: Text(currentFoodAmount[index].toString(), style: TextStyle(color: Colors.white),),
+                subtitle: Text(currentFoodAmount[index].toStringAsFixed(1) + " " + currentFoodUnits[index] , style: TextStyle(color: Colors.white),),
 
                 onLongPress: (){
                   // Delete the entire product
@@ -374,7 +403,7 @@ class _CreateState extends State<Create>{
                         content: Text("Se ha borrado el producto\n${currentFood[index]}")
                     ));
 
-                   removeProductFromList(currentFood[index], index, 1);
+                   removeProductFromList(currentFood[index], index, 0, currentFoodUnits[index]);
                    // Notify the user
                     });
                 },

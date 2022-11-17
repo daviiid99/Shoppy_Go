@@ -30,6 +30,8 @@ class _RegisterState extends State<Register> {
   late List<PlatformFile> files;
   String path = "";
   String image = "";
+  bool buttonSelected = false;
+  String unidadMedida = "";
 
   _RegisterState(productos) {
     this.productos = productos;
@@ -60,13 +62,12 @@ class _RegisterState extends State<Register> {
     });
   }
 
-  addProductToMap (String product, String image) async {
+  addProductToMap (String product, String image, String unidadMedida) async {
     // Await for file
     final file = await _LocalFile;
 
     // Add new keys to map
-    productos[currentCategory][product] = image;
-    print(productos[currentCategory][product]);
+    productos[currentCategory][product] = [image, unidadMedida];
 
     // Encode json file
     jsonString = jsonEncode(productos);
@@ -146,16 +147,74 @@ class _RegisterState extends State<Register> {
 
                             ),
 
+                            Text("\nUnidad de Medida\n", style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold, ), textAlign: TextAlign.center,),
+                            Row(
+                              children: [
+                                TextButton(
+                                  key: Key("unidades"),
+                                  style: TextButton.styleFrom(
+                                    backgroundColor: Colors.orangeAccent
+                                  ),
+                                    onPressed: (){
+                                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                          content: Text("Has selecciona la unidad de medida :  unidades"),
+                                      ));
+                                      setState(() {
+                                        unidadMedida = "unidad(es)";
+                                      });
+                                    },
+                                    child: Text("unidades", style: TextStyle(color: Colors.white),)
+                                ),
+                                SizedBox(width: 20,),
+                                TextButton(
+                                    style: TextButton.styleFrom(
+                                        backgroundColor: Colors.redAccent
+                                    ),
+                                    onPressed: (){
+                                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                        content: Text("Has selecciona la unidad de medida :  kg"),
+                                      ));
+                                      setState(() {
+                                        unidadMedida = "kg";
+                                      });
+
+                                    },
+                                    child: Text("kg", style: TextStyle(color: Colors.white),)
+                                ),
+                                SizedBox(width: 20,),
+                                TextButton(
+                                    style: TextButton.styleFrom(
+                                        backgroundColor: Colors.blueAccent
+                                    ),
+                                    onPressed: (){
+                                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                        content: Text("Has selecciona la unidad de medida :  l"),
+                                      ));
+
+                                      setState(() {
+                                        unidadMedida = "l";
+                                      });
+
+                                    },
+                                    child: Text("l", style: TextStyle(color: Colors.white),)
+                                )
+                              ],
+                            ),
+
+                            SizedBox(height: 50,),
+
                             TextButton(
-                              child: Text("Guardar"),
+                              style: TextButton.styleFrom(
+                                  backgroundColor: Colors.black,
+                              ),
+                              child: Text("Guardar", style: TextStyle(color: Colors.white),),
                               onPressed: ()  async{
                                 setState(() async {
                                   if (image.isEmpty){
-                                    await addProductToMap(noteName.text.toLowerCase(), "");
+                                    await addProductToMap(noteName.text.toLowerCase(), "", unidadMedida);
                                   } else {
-                                    await addProductToMap(noteName.text.toLowerCase(), image);
+                                    await addProductToMap(noteName.text.toLowerCase(), image, unidadMedida);
                                   }
-
                                   var index = 2;
                                   while (index > 0){
                                     index -=1;

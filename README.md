@@ -38,5 +38,7 @@ All permissions required for this application
 <img src="screens/screen_2.png"/>
 <img src="screens/screen_3.png"/>
 <img src="screens/screen_4.png"/>
+<img src="screens/screen_5.0.png"/>
 <img src="screens/screen_5.png"/>
 <img src="screens/screen_6.png"/>
+<img src="screens/screen_7.png"/>
