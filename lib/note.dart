@@ -79,11 +79,46 @@ class _NoteState extends State<Note>{
       myNotesCopia[myNota].remove(producto);
       currentProducts.remove(currentProducts[indice]);
       currentImages.remove(currentImages[indice]);
-      currentUnits.remove(currentUnits[indice]);
       currentAmounts.remove(currentAmounts[indice]);
     });
 
   }
+
+  decodeSafelyNote() async {
+
+    // We'll check if a product is removed before adding it
+      for (String originalProduct in myNotes[myNote].keys){
+        if (currentProducts.contains(originalProduct)){
+          setState(() {
+            temptProducts.add(originalProduct);
+          });
+        }
+      }
+
+      temptProducts.sort(); // Sort in alphabetical order
+
+      for (String producto in currentProducts){
+        final indice = currentProducts.indexOf(producto);
+          currentProducts.remove(currentProducts[indice]);
+          currentImages.remove(currentImages[indice]);
+          currentUnits.remove(currentUnits[indice]);
+          currentAmounts.remove(currentAmounts[indice]);
+      }
+
+      for (String producto in temptProducts){
+          tempImages.add(myNotesCopia[myNote][producto][0]);
+          tempAmounts.add(myNotesCopia[myNote][producto][1]);
+          tempUnits.add(myNotesCopia[myNote][producto][2]);
+      }
+
+        // Restore remaining products into lists
+      setState((){
+        currentProducts = temptProducts;
+        currentImages = tempImages;
+        currentAmounts = tempAmounts;
+        currentUnits = tempUnits;
+      });
+}
 
   generatePdf() async {
     // Create pdf
