@@ -74,6 +74,10 @@ class _CreateState extends State<Create>{
       machineLearning(splittedList, producto);
     }
 
+    print(currentFood);
+    print(currentFoodAmount);
+    print(currentFoodUnits);
+
   }
 
   checkProductType(String producto, String unidad, String categoria, String product) async {
@@ -90,6 +94,7 @@ class _CreateState extends State<Create>{
         } else {
           currentFoodAmount[index] += 1;
         }
+
 
       }
       else {
@@ -164,15 +169,15 @@ class _CreateState extends State<Create>{
     currentFoodAmount.clear();
   }
 
-  removeProductFromList(String product, int indice, double amount, String unit) async {
+  removeProductFromList(String product, int indice, double amount, String unit, String unidad) async {
     // We'll delete the choosed product or decrease his amount!
     if (amount == 0 && currentFoodUnits[indice].contains("unidad(es)") || amount <= 0.1 && currentFoodUnits[indice].contains("kg") || amount == 1 && currentFoodUnits[indice].contains("unidad(es)") || amount <= 0.1 && currentFoodUnits[indice].contains("l")){
       // We wont to remove it from list
       setState(() async {
+        currentFoodUnits.remove(unidad);
         currentFood.remove(product);
         currentFoodAmount.remove(currentFoodAmount[indice]);
         currentImages.remove(currentImages[indice]);
-        currentFoodUnits.remove(currentFoodUnits[indice]);
       });
     } else {
       setState(() async {
@@ -183,6 +188,10 @@ class _CreateState extends State<Create>{
         }
       });
     }
+
+    print(currentFood);
+    print(currentFoodAmount);
+    print(currentFoodUnits);
   }
 
   addProductFromList(String product, int indice, double amount, String unit) async {
@@ -307,6 +316,7 @@ class _CreateState extends State<Create>{
     myNotes = jsonDecode(jsonString);
   }
 
+
   @override
   void initState(){
     product.text = "Escribe un producto";
@@ -379,7 +389,7 @@ class _CreateState extends State<Create>{
                   children : [
                     IconButton(
                         onPressed: (){
-                          removeProductFromList(currentFood[index], index, currentFoodAmount[index], currentFoodUnits[index]);
+                          removeProductFromList(currentFood[index], index, currentFoodAmount[index], currentFoodUnits[index], currentFoodUnits[index]);
 
                         },
                         icon: Icon(Icons.remove, color: Colors.white,)),
@@ -402,8 +412,7 @@ class _CreateState extends State<Create>{
                     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                         content: Text("Se ha borrado el producto\n${currentFood[index]}")
                     ));
-
-                   removeProductFromList(currentFood[index], index, 0, currentFoodUnits[index]);
+                   removeProductFromList(currentFood[index], index, 0, currentFoodUnits[index], currentFoodUnits[index]);
                    // Notify the user
                     });
                 },
