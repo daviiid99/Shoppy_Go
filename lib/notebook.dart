@@ -208,6 +208,7 @@ class _NotebookState extends State<Notebook>{
                                                 ),
                                                 child: Text("Ver Nota", style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),),
                                                 onPressed: () {
+                                                  readNotes();
                                                   Navigator.push(
                                                       context,
                                                   MaterialPageRoute(builder: (context) => Note(notesTitles[index], myNotes, products)));

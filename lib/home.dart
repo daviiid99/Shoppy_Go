@@ -19,9 +19,15 @@ class _HomeState extends State<Home>{
 
   String jsonFile = "products.json";
   String jsonString = "";
-  String version = "2.0";
+  String version = "2.2.2";
 
   Map<dynamic, dynamic> products = {
+
+    "aceites" : {
+      "girasol" : ["assets/products/aceites/girasol.png", "l"],
+      "oliva" : ["assets/products/aceites/oliva.jpg", "l"],
+    },
+
     "aperitivos" : {
       "campesinas" : ["assets/products/aperitivos/campesinas.jpg", "unidad(es)"],
       "gusanitos" : ["assets/products/aperitivos/gusanitos.png", "unidad(es)"],
@@ -32,6 +38,7 @@ class _HomeState extends State<Home>{
     "carnes" : {
       "carne picada" : ["assets/products/carnes/carne_picada.jpeg", "kg"],
       "cerdo" : ["assets/products/carnes/pork.png", "kg"],
+      "pate" : ["assets/products/carnes/pate.png", "unidad(es)"],
       "pollo" : ["assets/products/carnes/chicken.png", "kg"],
       "serrano" : ["assets/products/carnes/serrano.jpg", "kg"],
       "solomillo" : ["assets/products/carnes/solomillo.png", "kg"],
@@ -171,11 +178,19 @@ class _HomeState extends State<Home>{
       "cocacola" : ["assets/products/refrescos/cocacola.png","unidad(es)"],
       "fanta" : ["assets/products/refrescos/fanta.jpg","unidad(es)"],
       "kas" : ["assets/products/refrescos/kas.png","unidad(es)"],
-      "melocoton" : ["assets/products/refrescos/melocoton.jpg","unidad(es)"],
+      "zumo" : ["assets/products/refrescos/melocoton.jpg","unidad(es)"],
       "nestea" : ["assets/products/refrescos/nestea.png","unidad(es)"],
       "sevenup" : ["assets/products/refrescos/sevenup.jpg","unidad(es)"],
       "sprite" : ["assets/products/refrescos/sprite.jpg","unidad(es)"],
       "trina" : ["assets/products/refrescos/trina.png","unidad(es)"],
+    },
+
+    "salsas" : {
+      "alioli" : ["assets/products/salsas/alioli.png", "unidad(es)"],
+      "ketchup" :  ["assets/products/salsas/ketchup.png", "unidad(es)"],
+      "mayonesa" : ["assets/products/salsas/mayonesa.png", "unidad(es)"],
+      "mostaza" : ["assets/products/salsas/mostaza.png", "unidad(es)"],
+      "tomate" : ["assets/products/salsas/tomate.png", "unidad(es)"],
     },
 
     "shampoos" : {

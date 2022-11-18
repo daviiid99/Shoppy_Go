@@ -77,48 +77,13 @@ class _NoteState extends State<Note>{
   removeProductFromList(String myNota, String producto, int indice) async {
     setState(() {
       myNotesCopia[myNota].remove(producto);
-      currentProducts.remove(currentProducts[indice]);
-      currentImages.remove(currentImages[indice]);
-      currentAmounts.remove(currentAmounts[indice]);
+      currentProducts = [];
+      currentImages =  [];
+      currentAmounts =  [];
+      currentUnits = [];
     });
 
   }
-
-  decodeSafelyNote() async {
-
-    // We'll check if a product is removed before adding it
-      for (String originalProduct in myNotes[myNote].keys){
-        if (currentProducts.contains(originalProduct)){
-          setState(() {
-            temptProducts.add(originalProduct);
-          });
-        }
-      }
-
-      temptProducts.sort(); // Sort in alphabetical order
-
-      for (String producto in currentProducts){
-        final indice = currentProducts.indexOf(producto);
-          currentProducts.remove(currentProducts[indice]);
-          currentImages.remove(currentImages[indice]);
-          currentUnits.remove(currentUnits[indice]);
-          currentAmounts.remove(currentAmounts[indice]);
-      }
-
-      for (String producto in temptProducts){
-          tempImages.add(myNotesCopia[myNote][producto][0]);
-          tempAmounts.add(myNotesCopia[myNote][producto][1]);
-          tempUnits.add(myNotesCopia[myNote][producto][2]);
-      }
-
-        // Restore remaining products into lists
-      setState((){
-        currentProducts = temptProducts;
-        currentImages = tempImages;
-        currentAmounts = tempAmounts;
-        currentUnits = tempUnits;
-      });
-}
 
   generatePdf() async {
     // Create pdf
@@ -185,12 +150,10 @@ class _NoteState extends State<Note>{
 
   @override
   void initState() {
-    setState((){
+    setState(() async{
       myNotesCopia = myNotes; // Clone of notes map
+      await decodeCurrentNote();
     });
-
-    decodeCurrentNote();
-    print(products);
     super.initState();
   }
 
@@ -217,7 +180,6 @@ class _NoteState extends State<Note>{
 
         Expanded(
         child : ListView.builder(
-          key: UniqueKey(),
             itemCount: currentProducts.length,
               itemBuilder: (context, index){
               return StatefulBuilder(
@@ -244,7 +206,8 @@ class _NoteState extends State<Note>{
                               onPressed: (){
                                 setState(()  {
                                   removeProductFromList(myNote, currentProducts[index], index);
-                                 // decodeSafelyNote();
+                                  decodeCurrentNote();
+                                  //decodeSafelyNote();
 
                                 });
 
@@ -264,6 +227,7 @@ class _NoteState extends State<Note>{
                           ));
                           setState(()  {
                             removeProductFromList(myNote, currentProducts[index], index);
+                            decodeCurrentNote();
                             //decodeSafelyNote();
                           });
 

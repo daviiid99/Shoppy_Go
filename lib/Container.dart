@@ -28,6 +28,12 @@ class Setup extends StatefulWidget {
   }
 
   Map<dynamic, dynamic> products2 = {
+
+    "aceites" : {
+      "girasol" : ["/data/user/0/com.daviiid99.shoppy_go/app_flutter/girasol.png", "l"],
+      "oliva" : ["/data/user/0/com.daviiid99.shoppy_go/app_flutter/oliva.jpg", "l"],
+    },
+
   "aperitivos" : {
     "campesinas" : ["/data/user/0/com.daviiid99.shoppy_go/app_flutter/campesinas.jpg", "unidad(es)"],
     "gusanitos" : ["/data/user/0/com.daviiid99.shoppy_go/app_flutter/gusanitos.png", "unidad(es)"],
@@ -38,6 +44,7 @@ class Setup extends StatefulWidget {
   "carnes" : {
     "carne picada" : ["/data/user/0/com.daviiid99.shoppy_go/app_flutter/carne_picada.jpeg", "kg"],
     "cerdo" : ["/data/user/0/com.daviiid99.shoppy_go/app_flutter/pork.png", "kg"],
+    "pate" : ["/data/user/0/com.daviiid99.shoppy_go/app_flutter/pate.png", "unidad(es)"],
     "pollo" : ["/data/user/0/com.daviiid99.shoppy_go/app_flutter/chicken.png", "kg"],
     "serrano" : ["/data/user/0/com.daviiid99.shoppy_go/app_flutter/serrano.jpg", "kg"],
     "solomillo" : ["/data/user/0/com.daviiid99.shoppy_go/app_flutter/solomillo.png", "kg"],
@@ -176,11 +183,19 @@ class Setup extends StatefulWidget {
     "cocacola" : ["/data/user/0/com.daviiid99.shoppy_go/app_flutter/cocacola.png","unidad(es)"],
     "fanta" : ["/data/user/0/com.daviiid99.shoppy_go/app_flutter/fanta.jpg","unidad(es)"],
     "kas" : ["/data/user/0/com.daviiid99.shoppy_go/app_flutter/kas.png","unidad(es)"],
-    "melocoton" : ["/data/user/0/com.daviiid99.shoppy_go/app_flutter/melocoton.jpg","unidad(es)"],
+    "zumo" : ["/data/user/0/com.daviiid99.shoppy_go/app_flutter/melocoton.jpg","unidad(es)"],
     "nestea" : ["/data/user/0/com.daviiid99.shoppy_go/app_flutter/nestea.png","unidad(es)"],
     "sevenup" : ["/data/user/0/com.daviiid99.shoppy_go/app_flutter/sevenup.jpg","unidad(es)"],
     "sprite" : ["/data/user/0/com.daviiid99.shoppy_go/app_flutter/sprite.jpg","unidad(es)"],
     "trina" : ["/data/user/0/com.daviiid99.shoppy_go/app_flutter/trina.png", "unidad(es)"],
+  },
+
+  "salsas" : {
+    "alioli" : ["/data/user/0/com.daviiid99.shoppy_go/app_flutter/alioli.png", "unidad(es)"],
+    "ketchup" :  ["/data/user/0/com.daviiid99.shoppy_go/app_flutter/ketchup.png", "unidad(es)"],
+    "mayonesa" : ["/data/user/0/com.daviiid99.shoppy_go/app_flutter/mayonesa.png", "unidad(es)"],
+    "mostaza" : ["/data/user/0/com.daviiid99.shoppy_go/app_flutter/mostaza.png", "unidad(es)"],
+    "tomate" : ["/data/user/0/com.daviiid99.shoppy_go/app_flutter/tomate.png", "unidad(es)"],
   },
 
   "shampoos" : {
