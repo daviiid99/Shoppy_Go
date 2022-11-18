@@ -171,10 +171,10 @@ class _CreateState extends State<Create>{
 
   removeProductFromList(String product, int indice, double amount, String unit, String unidad) async {
     // We'll delete the choosed product or decrease his amount!
-    if (amount == 0 && currentFoodUnits[indice].contains("unidad(es)") || amount <= 0.1 && currentFoodUnits[indice].contains("kg") || amount == 1 && currentFoodUnits[indice].contains("unidad(es)") || amount <= 0.1 && currentFoodUnits[indice].contains("l")){
+    if (amount == 0 && unidad.contains("unidad(es)") || amount <= 0.1 && unidad.contains("kg") || amount == 1 && unidad.contains("unidad(es)") || amount <= 0.1 && currentFoodUnits[indice].contains("l")){
       // We wont to remove it from list
       setState(() async {
-        currentFoodUnits.remove(unidad);
+        currentFoodUnits.removeAt(indice);
         currentFood.remove(product);
         currentFoodAmount.remove(currentFoodAmount[indice]);
         currentImages.remove(currentImages[indice]);
