@@ -30,11 +30,16 @@ class _NoteState extends State<Note>{
   String myNote = "";
   String jsonString = "";
   Map<dynamic, dynamic> myNotes = {};
+  Map<dynamic, dynamic> myNotesCopia = {};
   Map<dynamic, dynamic> products = {};
   List<String> currentProducts = [];
   List<double> currentAmounts = [];
   List<String>  currentImages = [];
   List<String> currentUnits = [];
+  List<String> temptProducts = [];
+  List<double> tempAmounts = [];
+  List<String>  tempImages = [];
+  List<String> tempUnits = [];
 
   _NoteState(String myNote, Map<dynamic, dynamic> myNotes, Map<dynamic, dynamic> products){
     this.myNote = myNote;
@@ -42,42 +47,42 @@ class _NoteState extends State<Note>{
     this.products = products;
   }
 
-  decodeCurrentNote(){
-    // Assign current note to a list of elements
+  decodeCurrentNote() async{
 
-    for(String nota in myNotes.keys){
+    // Assign current note to a list of elements
+    for(String nota in myNotesCopia.keys){
       if (nota.contains(myNote)){
-        for(String producto in myNotes[nota].keys){
-          setState(() async {
+        for(String producto in myNotesCopia[nota].keys){
+          setState(()  async {
             currentProducts.add(producto);
           });
 
         }
       }
     }
-    currentProducts.sort();
+    setState(() async {
+      currentProducts.sort();
+    });
+
 
     for (String producto in currentProducts){
-      currentImages.add(myNotes[myNote][producto][0]);
-      currentAmounts.add(myNotes[myNote][producto][1]);
-      currentUnits.add(myNotes[myNote][producto][2]);
+      setState(() async {
+        currentImages.add(myNotesCopia[myNote][producto][0]);
+        currentAmounts.add(myNotesCopia[myNote][producto][1]);
+        currentUnits.add(myNotesCopia[myNote][producto][2]);
+      });
     }
   }
 
-  removeProductFromList(String product, int indice, int amount) async {
-    // We'll delete the choosed product or decrease his amount!
-    if (amount == 1){
-      // We wont to remove it from list
-      setState(() async {
-        currentProducts.remove(product);
-        currentAmounts.remove(currentAmounts[indice]);
-        currentImages.remove(currentImages[indice]);
-      });
-    } else {
-      setState(() async {
-        currentAmounts[indice]  -=1 ;
-      });
-    }
+  removeProductFromList(String myNota, String producto, int indice) async {
+    setState(() {
+      myNotesCopia[myNota].remove(producto);
+      currentProducts.remove(currentProducts[indice]);
+      currentImages.remove(currentImages[indice]);
+      currentUnits.remove(currentUnits[indice]);
+      currentAmounts.remove(currentAmounts[indice]);
+    });
+
   }
 
   generatePdf() async {
@@ -145,6 +150,10 @@ class _NoteState extends State<Note>{
 
   @override
   void initState() {
+    setState((){
+      myNotesCopia = myNotes; // Clone of notes map
+    });
+
     decodeCurrentNote();
     print(products);
     super.initState();
@@ -173,6 +182,7 @@ class _NoteState extends State<Note>{
 
         Expanded(
         child : ListView.builder(
+          key: UniqueKey(),
             itemCount: currentProducts.length,
               itemBuilder: (context, index){
               return StatefulBuilder(
@@ -197,7 +207,12 @@ class _NoteState extends State<Note>{
                         children : [
                           IconButton(
                               onPressed: (){
-                                removeProductFromList(currentProducts[index], index, 1);
+                                setState(()  {
+                                  removeProductFromList(myNote, currentProducts[index], index);
+                                 // decodeSafelyNote();
+
+                                });
+
                               },
                               icon: Icon(Icons.remove_circle, color: Colors.red,)),
                         ],
@@ -212,8 +227,11 @@ class _NoteState extends State<Note>{
                           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                               content: Text("Se ha borrado el producto\n${currentProducts[index]}")
                           ));
+                          setState(()  {
+                            removeProductFromList(myNote, currentProducts[index], index);
+                            //decodeSafelyNote();
+                          });
 
-                          removeProductFromList(currentProducts[index], index, 1);
                           // Notify the user
                         });
                       },
