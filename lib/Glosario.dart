@@ -62,6 +62,7 @@ class _GlosarioState extends State<Glosario>{
   updateMap(String categoria){
     // Add new key to map
     products[categoria] = {};
+    products[categoria]["Producto por defecto"] = ["", ""]; // This is needed since an empty list isn't allowed
 
     // Update file
     jsonString = jsonEncode(products);

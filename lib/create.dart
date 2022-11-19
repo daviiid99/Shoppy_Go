@@ -66,6 +66,15 @@ class _CreateState extends State<Create>{
 
                 }
               });
+            } else if (subKey.contains(miProducto)){
+              setState(() async  {
+                if(currentFood.contains(producto)){
+                  checkProductType(producto, products[key][subKey][1], key, subKey);
+                } else {
+                  checkProductType(producto, products[key][subKey][1], key, subKey);
+                }
+              });
+
             }
             }
           }

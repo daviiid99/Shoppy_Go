@@ -64,6 +64,16 @@ class _CategoriaState extends State<Categoria>{
         misProductos.remove(misProductos[indice]);
         misFotos.remove(misFotos[indice]);
         products[miCategoria].remove(product);
+
+
+        if (misProductos.isEmpty){
+          products.remove(miCategoria); // This is needed to avoid a crash of length 0
+          int index = 2 ;
+          while (index > 0){
+            index -=1;
+            Navigator.pop(context);
+          }
+        }
         writeJson();
       });
   }
