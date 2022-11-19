@@ -175,9 +175,9 @@ class _CreateState extends State<Create>{
       // We wont to remove it from list
       setState(() async {
         currentFoodUnits.removeAt(indice);
-        currentFood.remove(product);
-        currentFoodAmount.remove(currentFoodAmount[indice]);
-        currentImages.remove(currentImages[indice]);
+        currentFood.removeAt(indice);
+        currentFoodAmount.removeAt(indice);
+        currentImages.removeAt(indice);
       });
     } else {
       setState(() async {
