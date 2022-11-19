@@ -34,6 +34,7 @@ class _CreateState extends State<Create>{
   List<double> currentFoodAmount = [];
   List<String> currentImages = [];
   List<String> currentFoodUnits = [];
+  String hint = "Escribe un producto";
 
   Future<String> get _LocalFilePath async {
     final dir = await getApplicationDocumentsDirectory();
@@ -319,7 +320,6 @@ class _CreateState extends State<Create>{
 
   @override
   void initState(){
-    product.text = "Escribe un producto";
     // Set full screen mode for an inmersive experience
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge, overlays: []);
 
@@ -438,11 +438,9 @@ class _CreateState extends State<Create>{
                 ),
                 border: OutlineInputBorder(
                 ),
-                hintText: "Escribe un producto"), cursorColor: Colors.white,
+                hintText: hint), cursorColor: Colors.white,
             controller: product,
             onTap: (){
-                product.text = "";
-
             },
             keyboardType: TextInputType.name,
 
@@ -462,6 +460,7 @@ class _CreateState extends State<Create>{
               onPressed: () async{
                 await addProductToList(product.text);
                 FocusManager.instance.primaryFocus?.unfocus();
+                product.text = "";
               },
             ),
           ),
