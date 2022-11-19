@@ -117,7 +117,7 @@ class _CreateState extends State<Create>{
   machineLearning(List<dynamic> splittedProduct, String product) {
     // User can try to add existing products with different syntax so we'll try to predict it
 
-    if (splittedProduct.contains("pan")) {
+    if (splittedProduct.contains("pan") ) {
       // User forgot to set the bread size
       setState(() async {
         if (currentFood.contains(product)) {
@@ -147,7 +147,7 @@ class _CreateState extends State<Create>{
         }
       });
 
-    } else if (splittedProduct.contains("carne")) {
+    } else if (splittedProduct.contains("carne") && !splittedProduct.contains("pollo") && !splittedProduct.contains("cerdo")) {
       // User forgot to specify meat type
       setState(() async {
         if (currentFood.contains(product)) {

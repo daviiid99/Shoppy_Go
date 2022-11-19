@@ -19,7 +19,7 @@ class _HomeState extends State<Home>{
 
   String jsonFile = "products.json";
   String jsonString = "";
-  String version = "2.2.3";
+  String version = "2.2.5";
 
   Map<dynamic, dynamic> products = {
 
@@ -45,6 +45,13 @@ class _HomeState extends State<Home>{
       "york" : ["assets/products/carnes/york.png", "kg"],
     },
 
+    "congelados" : {
+      "croquetas" : ["assets/products/congelados/croquetas.png", "unidad(es)"],
+      "flamenquines" : ["assets/products/congelados/flamenquines.jpg", "unidad(es)"],
+      "nuggets" : ["assets/products/congelados/nuggets.png", "unidad(es)"],
+      "jacobos" : ["assets/products/congelados/jacobos.jpg", "unidad(es)"],
+    },
+
     "dulces" : {
       "cereales" : ["assets/products/dulces/cereales.png", "unidad(es)"],
       "chocoflakes" : ["assets/products/dulces/chocoflakes.jpg", "unidad(es)"],
@@ -56,7 +63,7 @@ class _HomeState extends State<Home>{
     },
 
     "especias" : {
-      "azucar" : ["assets/products/especias/azucar.png", "unidad(es)"],
+      "azúcar" : ["assets/products/especias/azucar.png", "unidad(es)"],
       "bicarbonato" : ["assets/products/especias/bicarbonato.png", "unidad(es)"],
       "harina" : ["assets/products/especias/harina.jpg", "unidad(es)"],
       "sal" : ["assets/products/especias/sal.png", "unidad(es)"]
@@ -175,6 +182,8 @@ class _HomeState extends State<Home>{
     "refrescos" : {
       "agua" : ["assets/products/refrescos/agua.png", "unidad(es)"],
       "aquarius" : ["assets/products/refrescos/aquarius.png","unidad(es)"],
+      "blanco" : ["assets/products/refrescos/blanco.png","unidad(es)"],
+      "cerveza" : ["assets/products/refrescos/cerveza.png","unidad(es)"],
       "cocacola" : ["assets/products/refrescos/cocacola.png","unidad(es)"],
       "fanta" : ["assets/products/refrescos/fanta.jpg","unidad(es)"],
       "kas" : ["assets/products/refrescos/kas.png","unidad(es)"],
@@ -183,6 +192,7 @@ class _HomeState extends State<Home>{
       "sevenup" : ["assets/products/refrescos/sevenup.jpg","unidad(es)"],
       "sprite" : ["assets/products/refrescos/sprite.jpg","unidad(es)"],
       "trina" : ["assets/products/refrescos/trina.png","unidad(es)"],
+      "vino" : ["assets/products/refrescos/vino.png","unidad(es)"],
     },
 
     "salsas" : {
@@ -190,7 +200,7 @@ class _HomeState extends State<Home>{
       "ketchup" :  ["assets/products/salsas/ketchup.png", "unidad(es)"],
       "mayonesa" : ["assets/products/salsas/mayonesa.png", "unidad(es)"],
       "mostaza" : ["assets/products/salsas/mostaza.png", "unidad(es)"],
-      "tomate" : ["assets/products/salsas/tomate.png", "unidad(es)"],
+      "frito" : ["assets/products/salsas/tomate.png", "unidad(es)"],
     },
 
     "shampoos" : {

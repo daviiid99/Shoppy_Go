@@ -51,6 +51,13 @@ class Setup extends StatefulWidget {
     "york" : ["/data/user/0/com.daviiid99.shoppy_go/app_flutter/york.png", "kg"],
   },
 
+  "congelados" : {
+    "croquetas" : ["/data/user/0/com.daviiid99.shoppy_go/app_flutter/croquetas.png", "unidad(es)"],
+    "flamenquines" : ["/data/user/0/com.daviiid99.shoppy_go/app_flutter/flamenquines.jpg", "unidad(es)"],
+    "nuggets" : ["/data/user/0/com.daviiid99.shoppy_go/app_flutter/nuggets.png", "unidad(es)"],
+    "jacobos" : ["/data/user/0/com.daviiid99.shoppy_go/app_flutter/jacobos.jpg", "unidad(es)"],
+  },
+
   "dulces" : {
     "cereales" : ["/data/user/0/com.daviiid99.shoppy_go/app_flutter/cereales.png", "unidad(es)"],
     "chocoflakes" : ["/data/user/0/com.daviiid99.shoppy_go/app_flutter/chocoflakes.jpg", "unidad(es)"],
@@ -62,7 +69,7 @@ class Setup extends StatefulWidget {
   },
 
   "especias" : {
-    "azucar" : ["/data/user/0/com.daviiid99.shoppy_go/app_flutter/azucar.png", "unidad(es)"],
+    "azúcar" : ["/data/user/0/com.daviiid99.shoppy_go/app_flutter/azucar.png", "unidad(es)"],
     "bicarbonato" : ["/data/user/0/com.daviiid99.shoppy_go/app_flutter/bicarbonato.png", "unidad(es)"],
     "harina" : ["/data/user/0/com.daviiid99.shoppy_go/app_flutter/harina.jpg", "unidad(es)"],
     "sal" : ["/data/user/0/com.daviiid99.shoppy_go/app_flutter/sal.png", "unidad(es)"],
@@ -151,6 +158,7 @@ class Setup extends StatefulWidget {
     "barra" : ["/data/user/0/com.daviiid99.shoppy_go/app_flutter/barra.jpg","unidad(es)"],
     "bollos" : ["/data/user/0/com.daviiid99.shoppy_go/app_flutter/bollos.png","unidad(es)"],
     "molde" : ["/data/user/0/com.daviiid99.shoppy_go/app_flutter/molde.png","unidad(es)"],
+    "rallado" : ["/data/user/0/com.daviiid99.shoppy_go/app_flutter/rallado.png","unidad(es)"],
   },
 
   "pasta" :{
@@ -179,7 +187,9 @@ class Setup extends StatefulWidget {
 
   "refrescos" : {
     "agua" : ["/data/user/0/com.daviiid99.shoppy_go/app_flutter/agua.png", "unidad(es)"],
+    "blanco" : ["/data/user/0/com.daviiid99.shoppy_go/app_flutter/blanco.png","unidad(es)"],
     "aquarius" : ["/data/user/0/com.daviiid99.shoppy_go/app_flutter/aquarius.png","unidad(es)"],
+    "cerveza" : ["/data/user/0/com.daviiid99.shoppy_go/app_flutter/cerveza.png","unidad(es)"],
     "cocacola" : ["/data/user/0/com.daviiid99.shoppy_go/app_flutter/cocacola.png","unidad(es)"],
     "fanta" : ["/data/user/0/com.daviiid99.shoppy_go/app_flutter/fanta.jpg","unidad(es)"],
     "kas" : ["/data/user/0/com.daviiid99.shoppy_go/app_flutter/kas.png","unidad(es)"],
@@ -188,6 +198,8 @@ class Setup extends StatefulWidget {
     "sevenup" : ["/data/user/0/com.daviiid99.shoppy_go/app_flutter/sevenup.jpg","unidad(es)"],
     "sprite" : ["/data/user/0/com.daviiid99.shoppy_go/app_flutter/sprite.jpg","unidad(es)"],
     "trina" : ["/data/user/0/com.daviiid99.shoppy_go/app_flutter/trina.png", "unidad(es)"],
+    "vino" : ["/data/user/0/com.daviiid99.shoppy_go/app_flutter/vino.png","unidad(es)"],
+
   },
 
   "salsas" : {
@@ -195,7 +207,7 @@ class Setup extends StatefulWidget {
     "ketchup" :  ["/data/user/0/com.daviiid99.shoppy_go/app_flutter/ketchup.png", "unidad(es)"],
     "mayonesa" : ["/data/user/0/com.daviiid99.shoppy_go/app_flutter/mayonesa.png", "unidad(es)"],
     "mostaza" : ["/data/user/0/com.daviiid99.shoppy_go/app_flutter/mostaza.png", "unidad(es)"],
-    "tomate" : ["/data/user/0/com.daviiid99.shoppy_go/app_flutter/tomate.png", "unidad(es)"],
+    "frito" : ["/data/user/0/com.daviiid99.shoppy_go/app_flutter/tomate.png", "unidad(es)"],
   },
 
   "shampoos" : {
