@@ -124,7 +124,7 @@ class Setup extends StatefulWidget {
     "cebollas" : ["/data/user/0/com.daviiid99.shoppy_go/app_flutter/cebollas.png","kg"],
     "patatas" : ["/data/user/0/com.daviiid99.shoppy_go/app_flutter/patatas.png","kg"],
     "pimientos" : ["/data/user/0/com.daviiid99.shoppy_go/app_flutter/pimientos.png","kg"],
-    "tomate" : ["/data/user/0/com.daviiid99.shoppy_go/app_flutter/tomate.png","kg"],
+    "tomates" : ["/data/user/0/com.daviiid99.shoppy_go/app_flutter/tomate.png","kg"],
     "zanahorias" : ["/data/user/0/com.daviiid99.shoppy_go/app_flutter/zanahorias.png","kg"],
 },
 

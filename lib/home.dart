@@ -119,7 +119,7 @@ class _HomeState extends State<Home>{
       "cebollas" : ["assets/products/hortalizas/cebollas.png","kg"],
       "patatas" : ["assets/products/hortalizas/patatas.png","kg"],
       "pimientos" : ["assets/products/hortalizas/pimientos.png","kg"],
-      "tomate" : ["assets/products/hortalizas/tomate.png","kg"],
+      "tomates" : ["assets/products/hortalizas/tomate.png","kg"],
       "zanahorias" : ["assets/products/hortalizas/zanahorias.png","kg"],
     },
 
