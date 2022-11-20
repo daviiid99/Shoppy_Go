@@ -86,33 +86,57 @@ class _NoteState extends State<Note>{
 
   }
 
+  _readImage(String image) async {
+    final data = await rootBundle.load(image);
+    return data.buffer.asUint8List();
+  }
+
+  _currentImage() async {
+    for (String imagePath in currentImages){
+      var myPhoto = File(imagePath).readAsBytesSync();
+      return myPhoto;
+    }
+  }
+
   generatePdf() async {
     // Create pdf
     final pdf = pw.Document();
 
+    File logo = File("assets/icon/icon.png");
+    final image = pw.MemoryImage(await _readImage(logo.path));
+    final currentImage = pw.MemoryImage( await _currentImage());
+
+
     // Create pdf body
-    pdf.addPage(pw.Page(build : (pw.Context context){
-      return pw.Center(
-        child: pw.Column(
-          children: [
-            pw.Text("$myNote", style: pw.TextStyle(fontSize: 30, color: PdfColors.black)),
+    pdf.addPage(pw.MultiPage(
+        pageFormat: PdfPageFormat.a4,
+        build: (pw.Context context) {
+          return <pw.Widget>[
+         pw.Center(
+           child: pw.Column(
+            children: [
+              pw.SizedBox(height: 170),
+              pw.Image(image, width: 300, height: 300),
+              pw.Text("\n--------------------------------------------------------------------\n\n\n"),
+              pw.Text("$myNote", style: pw.TextStyle(fontSize: 45, color: PdfColors.black,),),
             pw.Text("\n--------------------------------------------------------------------\n\n\n"),
-            pw.SizedBox(height: 60),
-            pw.Text("Resumen de productos",  style: pw.TextStyle(fontSize: 20, color: PdfColors.black ),),
-            pw.SizedBox(height: 60),
-            pw.ListView.builder(itemBuilder: (context,index)
+              pw.SizedBox(height: 110),
+            pw.Text("Resumen de productos",  style: pw.TextStyle(fontSize: 30, color: PdfColors.black ),),
+              pw.SizedBox(height: 60),
+              pw.ListView.builder(itemBuilder: (context,index)
             {
               return pw.Column(
               children: [
-              pw.Row(
+                pw.Row(
                   mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
                   children: [
-                    //pw.Image(pw.MemoryImage(File(currentImages[index]).readAsBytesSync())),
-                    pw.Text(currentProducts[index]),
+                    //pw.Image(currentImage),
+                    pw.Text(currentProducts[index], style: pw.TextStyle(fontSize: 30, color: PdfColors.black)),
                     pw.SizedBox(height: 20),
-                    pw.Text(currentAmounts[index].toStringAsFixed(1) + " " + currentUnits[index]),
+                    pw.Text(currentAmounts[index].toStringAsFixed(1) + " " + currentUnits[index], style : pw.TextStyle(fontSize: 30, color: PdfColors.black)),
                   ]
               ),
+                pw.Row(children : [pw.Text("\n----------------------------------------------------------------------------------------------------------------------------------------\n\n\n")]),
               ]
 
 
@@ -127,7 +151,7 @@ class _NoteState extends State<Note>{
           ]
         )
 
-      );
+      )];
     }
     )
     );
