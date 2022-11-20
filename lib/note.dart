@@ -41,6 +41,7 @@ class _NoteState extends State<Note>{
   List<double> tempAmounts = [];
   List<String>  tempImages = [];
   List<String> tempUnits = [];
+  final noteName = TextEditingController();
 
   _NoteState(String myNote, Map<dynamic, dynamic> myNotes, Map<dynamic, dynamic> products){
     this.myNote = myNote;
@@ -173,6 +174,92 @@ class _NoteState extends State<Note>{
     file.writeAsString(jsonString);
   }
 
+  renameNote(String note) async {
+    myNotes.remove(myNote); // Remove current note
+    myNotes[note] = []; // Create new note with an empty list
+
+    Map<dynamic, dynamic> tempMap = {};
+
+    for (String product in currentProducts){
+      var index = currentProducts.indexOf(product);
+      tempMap[product] = [currentImages[index], currentAmounts[index], currentUnits[index]];
+    }
+
+    final file = await  File("/data/user/0/com.daviiid99.shoppy_go/app_flutter/myNotes.json"); // get file path
+    myNotes[note] = {};
+    myNotes[note].addEntries(tempMap.entries);
+    jsonString = jsonEncode(myNotes);
+    file.writeAsString(jsonString);
+  }
+
+  chooseNoteName() async {
+
+    showDialog(
+        context: context,
+        builder: (context)
+        {
+          return StatefulBuilder(
+              builder: (context, setState) {
+                return AlertDialog(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(15.0))),
+                    backgroundColor: Colors.transparent,
+                    content: SingleChildScrollView(
+                        child: Column(
+                          children: [
+                            Text("\Editando Nota\n", style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold, ), textAlign: TextAlign.center,),
+                            TextFormField(
+                              textAlign: TextAlign.center,
+                              style: TextStyle(color: Colors.black),
+                              decoration: InputDecoration(
+                                  fillColor: Colors.white,
+                                  filled: true,
+                                  disabledBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                          color: Colors.white, width: 2.0),
+                                      borderRadius: BorderRadius.circular(12.0)
+                                  ),
+
+                                  enabledBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                          color: Colors.white, width: 2.0),
+                                      borderRadius: BorderRadius.circular(12.0)
+                                  ),
+                                  border: OutlineInputBorder(
+                                  ),
+                                  hintText: "Elige un nombre"), cursorColor: Colors.white, textAlignVertical: TextAlignVertical.center,
+                              controller: noteName,
+                              onTap: (){
+                                noteName.text = "";
+                              },
+                            ),
+
+                            TextButton(
+                              child: Text("Guardar"),
+                              onPressed: ()  async{
+                                setState(() async {
+                                  await renameNote(noteName.text);
+                                  var index = 3;
+
+                                  while (index > 0){
+                                    index -=1;
+                                    Navigator.pop(context);
+                                  }
+                                });
+
+                              },
+                            )
+
+                          ],
+                        )
+                    )
+                );
+              }
+          );
+        }
+    );
+  }
+
   @override
   void initState() {
     setState(() async{
@@ -190,7 +277,7 @@ class _NoteState extends State<Note>{
       backgroundColor: Colors.deepOrange,
       appBar: AppBar(
         centerTitle: true,
-        title: Text("$myNote", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20), textAlign: TextAlign.center,),
+        title: Row(  mainAxisAlignment: MainAxisAlignment.center, children : [ Center(child : Text("$myNote", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20), textAlign: TextAlign.center,)) , Center(child : IconButton(onPressed: (){chooseNoteName();}, icon: Icon(Icons.edit_rounded), alignment: Alignment.center,))]),
         backgroundColor: Colors.deepOrange,
         automaticallyImplyLeading: false,
         elevation: 0.0,
@@ -199,7 +286,7 @@ class _NoteState extends State<Note>{
         children: [
 
           if (currentProducts.isEmpty)
-            Column(children: [ Image.asset("assets/images/check.png"), Text("Tu compra ha sido completada\n¡Enhorabuena!",  style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold)),           SizedBox(height : 200, child: TextButton(onPressed: (){removeHere(); int index = 2; while(index > 0 ){ index --; Navigator.pop(context);}; super.initState();}, child: Text("Borrar Nota", style: TextStyle(color: Colors.white, fontSize: 15, fontWeight: FontWeight.bold),))),
+            Column(children: [ Image.asset("assets/images/check.png"), Text("Tu compra ha sido completada\n¡Enhorabuena!",  style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold)),SizedBox(height : 200, child: TextButton(onPressed: (){removeHere(); int index = 2; while(index > 0 ){ index --; Navigator.pop(context);}; super.initState();}, child: Text("Borrar Nota", style: TextStyle(color: Colors.white, fontSize: 15, fontWeight: FontWeight.bold),))),
             ]),
 
 
