@@ -261,7 +261,7 @@ class _NotebookState extends State<Notebook>{
           onTap: (index){
             Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => Create(products)));
+                MaterialPageRoute(builder: (context) => Create(products, true, "")));
           },
           backgroundColor: Colors.transparent,
         items: <BottomNavigationBarItem> [
@@ -273,7 +273,7 @@ class _NotebookState extends State<Notebook>{
          onPressed: () {
           Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => Create(products)));
+          MaterialPageRoute(builder: (context) => Create(products, true, "")));
           },
     )
           )

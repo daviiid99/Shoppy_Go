@@ -19,7 +19,8 @@ class _HomeState extends State<Home>{
 
   String jsonFile = "products.json";
   String jsonString = "";
-  String version = "2.2.6";
+  String version = "2.3.0";
+  String myNote = "";
 
   Map<dynamic, dynamic> products = {
 
@@ -334,7 +335,7 @@ class _HomeState extends State<Home>{
                           onPressed: () {
                             Navigator.push(
                                 context,
-                            MaterialPageRoute(builder: (context) => Create(products)));
+                            MaterialPageRoute(builder: (context) => Create(products, true, myNote)));
                           },
                         )
                       ]

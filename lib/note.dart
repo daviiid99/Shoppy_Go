@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:flutter/material.dart';
+import 'package:shoppy_go/create.dart';
 import 'notebook.dart';
 import 'dart:io';
 import 'package:share/share.dart';
@@ -249,13 +250,26 @@ class _NoteState extends State<Note>{
           BottomNavigationBarItem(
             label: "",
             backgroundColor: Colors.transparent,
+            icon: IconButton(
+                icon : Icon(Icons.edit_rounded, color: Colors.white,),
+                onPressed: (){
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => Create(products, false, myNote)));
+                }),
+
+          ),
+          BottomNavigationBarItem(
+            label: "",
+            backgroundColor: Colors.transparent,
               icon: IconButton(
                 icon : Icon(Icons.download_rounded, color: Colors.white,),
               onPressed: (){
                   setState(() async {
                     generatePdf();
                   });
-              },))
+              },)),
+
         ],
       ),
 

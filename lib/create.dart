@@ -9,12 +9,16 @@ import 'package:path_provider/path_provider.dart';
 class Create extends StatefulWidget{
   @override
   Map<dynamic, dynamic> products = {};
+  bool isEmpty = true;
+  String myNote = "";
 
-  Create(products) {
+  Create(products, isEmpty, myNote) {
     this.products = products;
+    this.isEmpty = isEmpty;
+    this.myNote = myNote;
   }
 
-    _CreateState createState() => _CreateState(this.products);
+    _CreateState createState() => _CreateState(this.products, this.isEmpty, this.myNote);
 }
 
 class _CreateState extends State<Create>{
@@ -23,9 +27,14 @@ class _CreateState extends State<Create>{
   Map<dynamic, dynamic> myNotes = {};
   String jsonString = "";
   String jsonFile = "myNotes.json";
+  bool isEmpty = true;
+  String myNote = "";
 
-  _CreateState(products) {
+  _CreateState(products, isEmpty, myNote ) {
     this.products = products;
+    this.isEmpty = isEmpty;
+    this.myNote = myNote;
+
   }
 
   final product = TextEditingController();
@@ -57,24 +66,10 @@ class _CreateState extends State<Create>{
           var splittedProduct = miProducto.split(" ");
           splittedList = splittedProduct.toList();
           for (String miProducto in splittedList){
-            if (miProducto.contains(subKey)){
+            if (miProducto.contains(subKey) || subKey == producto.toLowerCase()){
               setState(() async  {
-                if(currentFood.contains(producto)){
                   checkProductType(producto, products[key][subKey][1], key, subKey);
-                } else {
-                  checkProductType(producto, products[key][subKey][1], key, subKey);
-
-                }
               });
-            } else if (subKey.contains(producto.toLowerCase())){
-              setState(() async  {
-                if(currentFood.contains(producto)){
-                  checkProductType(producto, products[key][subKey][1], key, subKey);
-                } else {
-                  checkProductType(producto, products[key][subKey][1], key, subKey);
-                }
-              });
-
             }
             }
           }
@@ -83,10 +78,6 @@ class _CreateState extends State<Create>{
     if(!currentFood.contains(producto)){
       machineLearning(splittedList, producto);
     }
-
-    print(currentFood);
-    print(currentFoodAmount);
-    print(currentFoodUnits);
 
   }
 
@@ -199,9 +190,6 @@ class _CreateState extends State<Create>{
       });
     }
 
-    print(currentFood);
-    print(currentFoodAmount);
-    print(currentFoodUnits);
   }
 
   addProductFromList(String product, int indice, double amount, String unit) async {
@@ -326,14 +314,31 @@ class _CreateState extends State<Create>{
     myNotes = jsonDecode(jsonString);
   }
 
+  restoreNoteProducts() async {
+    // We want the user to be able to edit an older note
+    // This will allow to the user to add or remove products if needed without creating a new note from scratch
+
+    for (String product in myNotes[myNote].keys ){
+      setState(() {
+        currentFood.add(product); // product
+        currentImages.add(myNotes[myNote][product][0]); // image
+        currentFoodAmount.add(myNotes[myNote][product][1]); // amount ;
+        currentFoodUnits.add(myNotes[myNote][product][2]);
+      });
+    }
+  }
 
   @override
   void initState(){
     // Set full screen mode for an inmersive experience
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge, overlays: []);
 
+
     setState(() async {
       await readJson();
+      if (!isEmpty){
+        restoreNoteProducts();
+      }
     });
 
 
@@ -359,7 +364,17 @@ class _CreateState extends State<Create>{
                 ),
                 child: Text("Guardar Nota", style: TextStyle(color: Colors.white),),
                 onPressed: () async{
-                  chooseNoteName();
+                  if(myNote.isEmpty){
+                    chooseNoteName();
+                  } else {
+                    myNotes.remove(myNote); // This is needed to overrite it first
+                    await encodeProductsIntoMap(myNote);
+                    var index = 2;
+                    while (index > 0) {
+                      index -=1;
+                      Navigator.pop(context);
+                    }
+                  }
                 },
               ),
             ),
