@@ -19,7 +19,7 @@ class _HomeState extends State<Home>{
 
   String jsonFile = "products.json";
   String jsonString = "";
-  String version = "2.3.0";
+  String version = "2.5.0";
   String myNote = "";
 
   Map<dynamic, dynamic> products = {
@@ -227,6 +227,8 @@ class _HomeState extends State<Home>{
     },
   };
 
+  Map<dynamic,dynamic> updateVersion = {};
+
   _launchURL(String url) async {
     final Uri _url = Uri.parse(url);
     await launchUrl(_url,mode: LaunchMode.externalApplication);
@@ -272,10 +274,50 @@ class _HomeState extends State<Home>{
 
   }
 
+  updateVersionFile() async {
+    final file = File("/data/user/0/com.daviiid99.shoppy_go/app_flutter/update.json");
+
+    updateVersion["version"] = version; // add to map
+    jsonString = jsonEncode(updateVersion); // encode map
+    file.writeAsStringSync(jsonString); // overwrite json file
+  }
+
+  checkProductsAvailable() async {
+    // Check if we're missing products by the way :)
+    // We'll check a file containing the old version and compare it with latest version
+
+    final file = File(
+        "/data/user/0/com.daviiid99.shoppy_go/app_flutter/update.json");
+
+    if (!file.existsSync()) {
+      // File doesn't exists, create it with latest available version
+      updateVersionFile();
+    } else {
+      var value = file.readAsStringSync();
+      updateVersion = jsonDecode(value);
+
+      if (updateVersion["version"] != version) {
+        Setup setup = new Setup(false, products);
+        if (updateVersion["version"] != version) {
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              content: Text("Agregando nuevos productos...")
+          ));
+          await setup.updateProducts(version, updateVersion);
+          await updateVersionFile();
+          Restart.restartApp();
+        }
+      }
+    }
+  }
+
   @override
   void initState() {
     // Set full screen mode for an inmersive experience
-    readJson();
+    setState(() async {
+      await readJson();
+      checkProductsAvailable();
+    });
+
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge, overlays: []);
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,

@@ -6,6 +6,7 @@ import 'package:flutter/services.dart' show rootBundle;
 import 'package:path_provider/path_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:restart_app/restart_app.dart';
 
 class Setup extends StatefulWidget {
 
@@ -301,6 +302,43 @@ class Setup extends StatefulWidget {
       print("se escribio el mapa");
     }
   }
+
+  updateProducts(String version, Map<dynamic, dynamic> update) async {
+
+    var total_categories = products2.entries.length; // to determine the size of our hash map
+    var product = "";
+    Map<dynamic,dynamic> tempMap = {};
+
+    // New updates will introduce new products
+    // User will be prompted to update and get the products
+    for (String old_categoria in products.keys){
+        for (String new_categoria in products2.keys ){
+          for (String new_producto in products2[new_categoria].keys){
+            if (!products[old_categoria].containsKey(new_producto) && products2[new_categoria].containsKey(new_producto)){
+              product = new_producto; // current product name
+              await getImageDetails(products2[new_categoria][new_producto][0]);
+              await decodeImage(products2[new_categoria][new_producto][0].replaceAll("/data/user/0/com.daviiid99.shoppy_go/app_flutter/", "assets/products/$new_categoria/", ), new_categoria, new_producto);
+                if(!products.containsKey(new_categoria)){
+                    update["version"] = version;
+                    var str = jsonEncode(update);
+                    final file = File("/data/user/0/com.daviiid99.shoppy_go/app_flutter/update.json").writeAsStringSync(str);
+                    products[new_categoria] = {};
+                    products[new_categoria][new_producto] = [];
+                    products[new_categoria][new_producto] = [products2[new_categoria][new_producto][0], products2[new_categoria][new_producto][1], ];
+                } else {
+                  products[new_categoria][new_producto] = [products2[new_categoria][new_producto][0], products2[new_categoria][new_producto][1], ];
+                }
+
+
+            }
+          }
+        }
+      }
+
+    jsonString = jsonEncode(products);
+    final path = await _LocalFile;
+    File("$path/products.json").writeAsStringSync(jsonString);
+    }
 
 
   _SetupState createState() => _SetupState(this.exists, this.products);
