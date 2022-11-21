@@ -111,6 +111,7 @@ class _NoteState extends State<Note>{
     // Create pdf body
     pdf.addPage(pw.MultiPage(
         pageFormat: PdfPageFormat.a4,
+        maxPages: 5,
         build: (pw.Context context) {
           return <pw.Widget>[
          pw.Center(

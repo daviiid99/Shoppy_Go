@@ -277,6 +277,10 @@ class _HomeState extends State<Home>{
     // Set full screen mode for an inmersive experience
     readJson();
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge, overlays: []);
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
     super.initState();
   }
 
