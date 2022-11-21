@@ -318,23 +318,27 @@ class Setup extends StatefulWidget {
               product = new_producto; // current product name
               await getImageDetails(products2[new_categoria][new_producto][0]);
               await decodeImage(products2[new_categoria][new_producto][0].replaceAll("/data/user/0/com.daviiid99.shoppy_go/app_flutter/", "assets/products/$new_categoria/", ), new_categoria, new_producto);
-                if(!products.containsKey(new_categoria)){
-                    update["version"] = version;
-                    var str = jsonEncode(update);
-                    final file = File("/data/user/0/com.daviiid99.shoppy_go/app_flutter/update.json").writeAsStringSync(str);
-                    products[new_categoria] = {};
-                    products[new_categoria][new_producto] = [];
-                    products[new_categoria][new_producto] = [products2[new_categoria][new_producto][0], products2[new_categoria][new_producto][1], ];
-                } else {
-                  products[new_categoria][new_producto] = [products2[new_categoria][new_producto][0], products2[new_categoria][new_producto][1], ];
+              if(!tempMap.containsKey(new_categoria)) {
+                tempMap[new_categoria] = {};
+              };
+              tempMap[new_categoria][new_producto] = [];
+              tempMap[new_categoria][new_producto] = [products2[new_categoria][new_producto][0], products2[new_categoria][new_producto][1], ];
                 }
-
-
             }
           }
         }
-      }
 
+    for (String category in tempMap.keys){
+      for (String product in tempMap[category].keys){
+        if (!products.containsKey(category)){
+          products[category] = {};
+        }
+
+        if (!products[category].containsKey(product)){
+          products[category][product] = [tempMap[category][product][0], tempMap[category][product][1]];
+        }
+      }
+    }
     jsonString = jsonEncode(products);
     final path = await _LocalFile;
     File("$path/products.json").writeAsStringSync(jsonString);

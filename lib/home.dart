@@ -19,7 +19,7 @@ class _HomeState extends State<Home>{
 
   String jsonFile = "products.json";
   String jsonString = "";
-  String version = "2.5.0";
+  String version = "2.5.1";
   String myNote = "";
 
   Map<dynamic, dynamic> products = {
