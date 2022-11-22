@@ -57,28 +57,35 @@ class _CreateState extends State<Create>{
 
   addProductToList(String producto) async {
     // Transform producto to lowercase
-    var miProducto = producto.toLowerCase(); // User might use different combinations
+    var miProducto = producto
+        .toLowerCase(); // User might use different combinations
     var splittedList = [];
 
     // We'll check if the user product exists in our database
     for (String key in products.keys) {
-        for(String subKey in products[key].keys){
+      for (String subKey in products[key].keys) {
+        if (miProducto == subKey) {
+          // Product exists with the same scheme
+          checkProductType(
+              producto, products[key][subKey][1], key, subKey);
+        } else {
           var splittedProduct = miProducto.split(" ");
           splittedList = splittedProduct.toList();
-          for (String miProducto in splittedList){
-            if (miProducto.contains(subKey) || subKey == producto.toLowerCase()){
-              setState(() async  {
-                  checkProductType(producto, products[key][subKey][1], key, subKey);
+          for (String miProducto in splittedList) {
+            if (miProducto.contains(subKey) ||
+                subKey == producto.toLowerCase()) {
+              setState(() async {
+                checkProductType(
+                    producto, products[key][subKey][1], key, subKey);
               });
-            }
             }
           }
         }
-
-    if(!currentFood.contains(producto)){
-      machineLearning(splittedList, producto);
+      }
+      if (!currentFood.contains(miProducto)) {
+        machineLearning(splittedList, producto);
+      }
     }
-
   }
 
   checkProductType(String producto, String unidad, String categoria, String product) async {
@@ -116,6 +123,7 @@ class _CreateState extends State<Create>{
 
   machineLearning(List<dynamic> splittedProduct, String product) {
     // User can try to add existing products with different syntax so we'll try to predict it
+    // The program can't manually handle all types of products so let's do it possible to predict it
 
     if (splittedProduct.contains("pan") ) {
       // User forgot to set the bread size
@@ -205,6 +213,9 @@ class _CreateState extends State<Create>{
   }
   
   chooseNoteName() async {
+
+    var message = "*Este nombre puede modificarse más tarde";
+    var message_color = Colors.white;
     
     showDialog(
         context: context,
@@ -246,16 +257,38 @@ class _CreateState extends State<Create>{
                           },
                         ),
 
+                        Text("\n$message\n", style: TextStyle(color: message_color, fontSize: 10, fontWeight: FontWeight.bold, ), textAlign: TextAlign.center,),
+
                         TextButton(
                           child: Text("Guardar"),
                           onPressed: ()  async{
                             setState(() async {
-                              await encodeProductsIntoMap(noteName.text);
-                              var index = 2;
+                              if(noteName.text.length > 0){
+                                // An empty note isn't allowed since it could lead to unexpected situations
 
-                              while (index > 0){
-                                index -=1;
-                                Navigator.pop(context);
+                                if (myNotes.containsKey(noteName.text) && !message.contains("Esta nota ya existe,si quieres sobreescribirla pulsar 'Guardar'" )){
+                                    // Modify an existing note is allowed but user should be notified about it before
+                                    // We show an alert and user will be prompted to proceed or decline it
+                                    message = "Esta nota ya existe,si quieres sobreescribirla pulsar 'Guardar' ";
+                                    message_color = Colors.red;
+
+                                    }
+
+                                else {
+                                  if(myNotes.containsKey(noteName.text)){
+                                    restoreNoteProducts(noteName.text); // This is only needed for exiting notes to preserve all items
+                                    myNotes.remove(noteName.text);
+                                  }
+
+                                  await encodeProductsIntoMap(noteName.text);
+                                  var index = 2;
+
+                                  while (index > 0){
+                                    index -=1;
+                                    Navigator.pop(context);
+                                  }
+                              }
+
                               }
                             });
 
@@ -314,16 +347,16 @@ class _CreateState extends State<Create>{
     myNotes = jsonDecode(jsonString);
   }
 
-  restoreNoteProducts() async {
+  restoreNoteProducts(String nota) async {
     // We want the user to be able to edit an older note
     // This will allow to the user to add or remove products if needed without creating a new note from scratch
 
-    for (String product in myNotes[myNote].keys ){
+    for (String product in myNotes[nota].keys ){
       setState(() {
         currentFood.add(product); // product
-        currentImages.add(myNotes[myNote][product][0]); // image
-        currentFoodAmount.add(myNotes[myNote][product][1]); // amount ;
-        currentFoodUnits.add(myNotes[myNote][product][2]);
+        currentImages.add(myNotes[nota][product][0]); // image
+        currentFoodAmount.add(myNotes[nota][product][1]); // amount ;
+        currentFoodUnits.add(myNotes[nota][product][2]);
       });
     }
   }
@@ -337,7 +370,7 @@ class _CreateState extends State<Create>{
     setState(() async {
       await readJson();
       if (!isEmpty){
-        restoreNoteProducts();
+        restoreNoteProducts(myNote);
       }
     });
 
