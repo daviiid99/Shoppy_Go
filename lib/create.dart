@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:ffi';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -57,14 +56,11 @@ class _CreateState extends State<Create>{
 
   addProductToList(String producto) async {
     // Transform producto to lowercase
-    var miProducto = producto
-        .toLowerCase(); // User might use different combinations
+    var miProducto = producto.toLowerCase(); // User might use different combinations
     var splittedList = [];
-    var completed = false;
     var splittedProduct = miProducto.split(" ");
     splittedList = splittedProduct.toList();
     var remaining = products.keys.length;
-    var candidates = 0;
 
     // We'll check if the user product exists in our database
     for (String key in products.keys) {
@@ -76,12 +72,10 @@ class _CreateState extends State<Create>{
           checkProductType(producto, products[key][subKey][1], key, subKey);
         }
         else if (splittedList[0] == subKey) {
-          candidates ++;
           // CASE 2
           // FIRST PRODUCT WORD CONTAINS A PRODUCT
           if (splittedList[1] == "de") {
             if (splittedList[0] + splittedList[1] + splittedList[2] == subKey) {
-              candidates ++;
               for (String categoria in products.keys){
                 if (products[categoria].containsKey(splittedList[2])){
                 }
@@ -98,7 +92,6 @@ class _CreateState extends State<Create>{
                 }
               });
             } else {
-              print("${splittedList[0]}, $subKey");
               setState(() async {
                 if (remaining > 0) {
                   checkProductType(
@@ -108,9 +101,7 @@ class _CreateState extends State<Create>{
               });
             }
           } else {
-            if (candidates == 1) {
               // IF ONLY A TARGET PRODUCT WAS FOUND
-              print("${splittedList[0]}, $subKey");
               setState(() async {
                 if (remaining > 0) {
                   checkProductType(
@@ -118,14 +109,11 @@ class _CreateState extends State<Create>{
                       splittedList[0]);
                 }
               });
-            }
           }
         } else if (splittedList.length >= 2 ) {
             if (splittedList[0] != subKey) {
               // CASE 4
               // THERE'S A PRODUCT ONLY IN THE SECOND/THIRD/.. WORD
-              candidates ++;
-
               setState(() async {
                 for (String pr in splittedList){
                   if (pr == subKey){
