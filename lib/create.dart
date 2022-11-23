@@ -60,56 +60,85 @@ class _CreateState extends State<Create>{
     var miProducto = producto
         .toLowerCase(); // User might use different combinations
     var splittedList = [];
-    var count = 0;
-    var desiredProduct = "";
+    var completed = false;
     var splittedProduct = miProducto.split(" ");
     splittedList = splittedProduct.toList();
-    var remaining =  products.keys.length;
+    var remaining = products.keys.length;
+    var candidates = 0;
 
     // We'll check if the user product exists in our database
     for (String key in products.keys) {
+      remaining --;
       for (String subKey in products[key].keys) {
         if (miProducto == subKey) {
-          // Product exists with the same scheme
+          // CASE 1
+          //PRODUCT EXISTS WITH THE SAME NAME SCHEME
           checkProductType(producto, products[key][subKey][1], key, subKey);
         }
         else if (splittedList[0] == subKey) {
-          count ++;
-          remaining --;
-          desiredProduct = subKey;
-          print("${splittedList[0]}, $subKey");
-          setState(() async {
-            if (remaining > 0){
-              checkProductType(producto, products[key][desiredProduct][1], key, desiredProduct);
-            }
-          });
-        }
-        else {
-            if (remaining == 0) {
-              for (String miProducto in splittedList) {
-                if (miProducto.contains(subKey)) {
-                  setState(() async {
-                    if (desiredProduct.isEmpty ) {
-                      checkProductType(
-                          producto, products[key][subKey][1], key, subKey);
-                      print("no existe");
-                    } else {
-                      checkProductType(
-                          producto, products[key][desiredProduct][1], key,
-                          desiredProduct);
-                      print("existio antes");
-                    }
-                  });
+          candidates ++;
+          // CASE 2
+          // FIRST PRODUCT WORD CONTAINS A PRODUCT
+          if (splittedList[1] == "de") {
+            if (splittedList[0] + splittedList[1] + splittedList[2] == subKey) {
+              candidates ++;
+              for (String categoria in products.keys){
+                if (products[categoria].containsKey(splittedList[2])){
                 }
               }
+              var another_full_product = splittedList[0] + splittedList[1] +
+                  splittedList[2];
+              // CASE 3
+              // FIRST PRODUCT WORD CONTAINS A PRODUCT, CONTAINS A CONNECTOR AND WITH NEXT WORD FORMS A COMPLETE PRODUCT
+              setState(() async {
+                if (remaining > 0) {
+                  checkProductType(
+                      producto, products[key][another_full_product][1], key,
+                      another_full_product);
+                }
+              });
+            } else {
+              print("${splittedList[0]}, $subKey");
+              setState(() async {
+                if (remaining > 0) {
+                  checkProductType(
+                      producto, products[key][splittedList[0]][1], key,
+                      splittedList[0]);
+                }
+              });
+            }
+          } else {
+            if (candidates == 1) {
+              // IF ONLY A TARGET PRODUCT WAS FOUND
+              print("${splittedList[0]}, $subKey");
+              setState(() async {
+                if (remaining > 0) {
+                  checkProductType(
+                      producto, products[key][splittedList[0]][1], key,
+                      splittedList[0]);
+                }
+              });
             }
           }
+        } else if (splittedList.length >= 2 ) {
+            if (splittedList[0] != subKey) {
+              // CASE 4
+              // THERE'S A PRODUCT ONLY IN THE SECOND/THIRD/.. WORD
+              candidates ++;
+
+              setState(() async {
+                for (String pr in splittedList){
+                  if (pr == subKey){
+                    checkProductType(producto, products[key][pr][1], key, pr);
+                  }
+                }
+              });
+          }
         }
-      }
-      if (!currentFood.contains(miProducto)) {
-        machineLearning(splittedList, producto);
-      }
+
     }
+  }
+  }
 
   checkProductType(String producto, String unidad, String categoria, String product) async {
     // We'll check if the current product match a unit

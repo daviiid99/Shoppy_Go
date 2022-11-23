@@ -163,12 +163,10 @@ class _NotebookState extends State<Notebook>{
                   height: 250,
                   width: 250,
                   color: Colors.transparent,
-                  child: Stack(
-                    alignment: Alignment.bottomCenter,
+                 child : Column(
                     children: [
                       InkWell(
                         onTap: (){
-
                         },
                           child : Card(
                               shape: RoundedRectangleBorder(
