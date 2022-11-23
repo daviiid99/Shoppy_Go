@@ -76,10 +76,6 @@ class _CreateState extends State<Create>{
           // FIRST PRODUCT WORD CONTAINS A PRODUCT
           if (splittedList[1] == "de") {
             if (splittedList[0] + splittedList[1] + splittedList[2] == subKey) {
-              for (String categoria in products.keys){
-                if (products[categoria].containsKey(splittedList[2])){
-                }
-              }
               var another_full_product = splittedList[0] + splittedList[1] +
                   splittedList[2];
               // CASE 3
@@ -126,6 +122,10 @@ class _CreateState extends State<Create>{
 
     }
   }
+    if(!currentFood.contains(producto)){
+      // Additional checks for most common products
+      machineLearning(splittedList, producto);
+    }
   }
 
   checkProductType(String producto, String unidad, String categoria, String product) async {

@@ -18,11 +18,17 @@ class _NotebookState extends State<Notebook>{
 
   Map<dynamic, dynamic> myNotes = {};
   Map<dynamic, dynamic> products = {};
+  Map<dynamic, dynamic> cardSkin = {};
   String jsonString = "";
   String jsonFile = "myNotes.json";
+  int selectCardIndex = 0;
   List<String> notesTitles = [];
-  List<String> cardsImages = ["assets/cards/amigos.png", "assets/cards/barbacoa.png", "assets/cards/carro.png", "assets/cards/cine.png", "assets/cards/rosa.png", "assets/cards/tienda.png"];
-  List<MaterialAccentColor> cardsColors = [Colors.blueAccent, Colors.redAccent, Colors.amberAccent, Colors.cyanAccent, Colors.pinkAccent, Colors.orangeAccent ];
+  List<String> currentCardsTheme = [];
+  List<MaterialAccentColor> currentCardsColor = [];
+  List<String> cardsImages = ["assets/cards/default.png", "assets/cards/amigos.png", "assets/cards/barbacoa.png", "assets/cards/carro.png", "assets/cards/cine.png", "assets/cards/rosa.png", "assets/cards/tienda.png"];
+  List<String> cardsTitles = ["Por defecto", "Comida con Amigos", "Barbacoa", "Compra Supermercado", "Al Cine", "Comida Íntima", "De Viaje"];
+  List<String> cardsDescription = ["Si es una compra omún, esta es tu tarjeta", "¿Salida con amigos o familia?\nSi vas a celebrar un evento esta es tu tarjeta", "¿Salida al campo?\nSi vas a comer al aire libre, esta es tu tarjeta", "¿Compra al supermercado? No busques más, esta es tu tarjeta", "¿Apetito cinéfilo?\nRellena tu cartón de palomitas con esta tarjeta", "¿Una comida especial\nEscoge esta nota con delicadeza", "¿Comida al aire libre?\nQue los grillos no te distraigan!"];
+  List<MaterialAccentColor> cardsColors = [Colors.lightBlueAccent, Colors.purpleAccent, Colors.deepOrangeAccent, Colors.amberAccent, Colors.cyanAccent, Colors.pinkAccent, Colors.orangeAccent ];
 
   _NotebookState(products){
     this.products = products;
@@ -150,23 +156,27 @@ class _NotebookState extends State<Notebook>{
     // We'll let the user to choose a custom card to describe card content
 
     Widget ListViewDialog(){
-      return Container(
-          height: 250,
-          width: 250,
-          color: Colors.transparent,
-          decoration: BoxDecoration(color: Colors.transparent),
-      child : ListView.builder(
+      return ListView.builder(
             scrollDirection: Axis.horizontal,
               itemCount: cardsImages.length ,
               itemBuilder: (context, index) {
                 return Container(
-                  height: 250,
-                  width: 250,
+                  width:200,
+                  height: 200,
                   color: Colors.transparent,
                  child : Column(
                     children: [
+                      SizedBox(height: 100,),
                       InkWell(
                         onTap: (){
+                          setState(() {
+                            currentCardsTheme[selectCardIndex] = cardsImages[index]; // Add to list
+                            currentCardsColor[selectCardIndex] = cardsColors[index];
+                            cardSkin[notesTitles[selectCardIndex]] = cardsImages[index]; // Add to hash map
+                            overwriteCardTheme(); // Overwrite json file
+                            Navigator.pop(context);
+                          });
+
                         },
                           child : Card(
                               shape: RoundedRectangleBorder(
@@ -179,8 +189,11 @@ class _NotebookState extends State<Notebook>{
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children : [
                                     Image.asset(cardsImages[index]),
-                                    Text("Hello")
-                                  ],
+                                    Text(cardsTitles[index], style: TextStyle(fontSize: 25, color: Colors.white),),
+                                    Text("\n"),
+                                    Text(cardsDescription[index], style: TextStyle(fontSize: 15, color: Colors.white),),
+
+                            ],
                                 ),
                               )
                               )
@@ -189,7 +202,6 @@ class _NotebookState extends State<Notebook>{
                   ),
                 );
               }
-          )
       );
 
     }
@@ -201,6 +213,7 @@ class _NotebookState extends State<Notebook>{
       return StatefulBuilder(
           builder: (context, setState) {
             return AlertDialog(
+              backgroundColor: Colors.transparent,
               content: ListViewDialog(),
 
             );
@@ -211,9 +224,65 @@ class _NotebookState extends State<Notebook>{
       );
   }
 
+  overwriteCardTheme() async{
+    //User changed his cards theme
+    // We'll overwrite JSON file with the changes
+    final file = File("/data/user/0/com.daviiid99.shoppy_go/app_flutter/cards.json");
+    jsonString = jsonEncode(cardSkin);
+    file.writeAsStringSync(jsonString);
+  }
+
+  readCardsTheme() async {
+    // We'll restore cards theme from JSON if exists
+
+    final file = File("/data/user/0/com.daviiid99.shoppy_go/app_flutter/cards.json");
+
+    if (file.existsSync()){
+      // File exists, time to restore everything
+      jsonString = file.readAsStringSync();
+      cardSkin = jsonDecode(jsonString);
+
+      print(cardSkin);
+
+      if (cardsTitles.length > cardSkin.keys.length){
+        // New cards were added since last time
+
+        for (String card in notesTitles){
+          if (!cardSkin.containsKey(card)){
+            cardSkin[card] = ""; // initialize note
+            cardSkin[card] = cardsImages[0]; // default card
+          }
+        }
+      }
+
+      overwriteCardTheme(); // save changes
+
+      for (String card in cardSkin.keys){
+          currentCardsTheme.add(cardSkin[card]);
+          currentCardsColor.add(cardsColors[cardsImages.indexOf(cardSkin[card])]);
+      }
+    } else {
+      for (String cardTitle in notesTitles){
+        setState(() {
+          cardSkin[cardTitle] = ""; // initialize
+          cardSkin[cardTitle] = cardsImages[0]; // Add default skin for existing cards
+        });
+
+        // Write file for next read
+        jsonString = jsonEncode(cardSkin);
+        file.writeAsStringSync(jsonString);
+      }
+    }
+
+  }
+
   @override
   void initState() {
-      readNotes();
+    setState(() async {
+      await readNotes();
+      readCardsTheme();
+    });
+
     super.initState();
   }
 
@@ -257,14 +326,14 @@ class _NotebookState extends State<Notebook>{
                                 child : Card(
                                     shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.all(Radius.circular(15.0))),
-                                    color: Colors.white,
+                                    color: currentCardsColor[index],
                                     child: Padding(
                                         padding: const EdgeInsets.all(12),
                                         child: Column(
                                             crossAxisAlignment: CrossAxisAlignment.start,
                                             mainAxisAlignment: MainAxisAlignment.center,
                                             children : [
-                                              Text(notesTitles[index], style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
+                                              Text(notesTitles[index], style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),),
                                               SizedBox(height: 30,),
 
                                               Row(
@@ -274,7 +343,7 @@ class _NotebookState extends State<Notebook>{
                                                   backgroundColor: Colors.blueAccent,
                                                   padding: const EdgeInsets.all(12.0),
                                                 ),
-                                                child: Text("Ver Nota", style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),),
+                                                child: Text("Ver Nota", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold,),),
                                                 onPressed: () {
                                                   readNotes();
                                                   Navigator.push(
@@ -289,7 +358,7 @@ class _NotebookState extends State<Notebook>{
                                                   backgroundColor: Colors.redAccent,
                                                   padding: const EdgeInsets.all(12.0),
                                                 ),
-                                                child: Text("Borrar Nota", style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),),
+                                                child: Text("Borrar Nota", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
                                                 onPressed: () {
                                                   setState(() async {
                                                     confirmRemoval(notesTitles[index]);
@@ -310,8 +379,11 @@ class _NotebookState extends State<Notebook>{
                         child : InkWell(
                           onTap: (){
                             cardGallery();
+                            setState(() {
+                              selectCardIndex = index;
+                            });
                           },
-                        child: Image.asset("assets/images/create_note.png",
+                        child: Image.asset(currentCardsTheme[index],
                         fit: BoxFit.fitWidth,
                         height: 200,
                         width: 70,
