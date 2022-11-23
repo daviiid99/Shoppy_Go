@@ -60,24 +60,48 @@ class _CreateState extends State<Create>{
     var miProducto = producto
         .toLowerCase(); // User might use different combinations
     var splittedList = [];
+    var count = 0;
+    var desiredProduct = "";
+    var splittedProduct = miProducto.split(" ");
+    splittedList = splittedProduct.toList();
+    var remaining =  products.keys.length;
 
     // We'll check if the user product exists in our database
     for (String key in products.keys) {
       for (String subKey in products[key].keys) {
         if (miProducto == subKey) {
           // Product exists with the same scheme
-          checkProductType(
-              producto, products[key][subKey][1], key, subKey);
-        } else {
-          var splittedProduct = miProducto.split(" ");
-          splittedList = splittedProduct.toList();
-          for (String miProducto in splittedList) {
-            if (miProducto.contains(subKey) ||
-                subKey == producto.toLowerCase()) {
-              setState(() async {
-                checkProductType(
-                    producto, products[key][subKey][1], key, subKey);
-              });
+          checkProductType(producto, products[key][subKey][1], key, subKey);
+        }
+        else if (splittedList[0] == subKey) {
+          count ++;
+          remaining --;
+          desiredProduct = subKey;
+          print("${splittedList[0]}, $subKey");
+          setState(() async {
+            if (remaining > 0){
+              checkProductType(producto, products[key][desiredProduct][1], key, desiredProduct);
+            }
+          });
+        }
+        else {
+            if (remaining == 0) {
+              for (String miProducto in splittedList) {
+                if (miProducto.contains(subKey)) {
+                  setState(() async {
+                    if (desiredProduct.isEmpty ) {
+                      checkProductType(
+                          producto, products[key][subKey][1], key, subKey);
+                      print("no existe");
+                    } else {
+                      checkProductType(
+                          producto, products[key][desiredProduct][1], key,
+                          desiredProduct);
+                      print("existio antes");
+                    }
+                  });
+                }
+              }
             }
           }
         }
@@ -86,7 +110,6 @@ class _CreateState extends State<Create>{
         machineLearning(splittedList, producto);
       }
     }
-  }
 
   checkProductType(String producto, String unidad, String categoria, String product) async {
     // We'll check if the current product match a unit

@@ -220,6 +220,12 @@ flutter:
     - assets/products/congelados/nuggets.png
     - assets/products/congelados/jacobos.jpg
     - assets/products/pan/rallado.png
+    - assets/cards/amigos.png
+    - assets/cards/barbacoa.png
+    - assets/cards/carro.png
+    - assets/cards/cine.png
+    - assets/cards/rosa.png
+    - assets/cards/tienda.png
 
   # To add assets to your application, add an assets section, like this:
   # assets:

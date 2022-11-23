@@ -21,6 +21,8 @@ class _NotebookState extends State<Notebook>{
   String jsonString = "";
   String jsonFile = "myNotes.json";
   List<String> notesTitles = [];
+  List<String> cardsImages = ["assets/cards/amigos.png", "assets/cards/barbacoa.png", "assets/cards/carro.png", "assets/cards/cine.png", "assets/cards/rosa.png", "assets/cards/tienda.png"];
+  List<MaterialAccentColor> cardsColors = [Colors.blueAccent, Colors.redAccent, Colors.amberAccent, Colors.cyanAccent, Colors.pinkAccent, Colors.orangeAccent ];
 
   _NotebookState(products){
     this.products = products;
@@ -143,6 +145,74 @@ class _NotebookState extends State<Notebook>{
 
   }
 
+
+  cardGallery() async {
+    // We'll let the user to choose a custom card to describe card content
+
+    Widget ListViewDialog(){
+      return Container(
+          height: 250,
+          width: 250,
+          color: Colors.transparent,
+          decoration: BoxDecoration(color: Colors.transparent),
+      child : ListView.builder(
+            scrollDirection: Axis.horizontal,
+              itemCount: cardsImages.length ,
+              itemBuilder: (context, index) {
+                return Container(
+                  height: 250,
+                  width: 250,
+                  color: Colors.transparent,
+                  child: Stack(
+                    alignment: Alignment.bottomCenter,
+                    children: [
+                      InkWell(
+                        onTap: (){
+
+                        },
+                          child : Card(
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.all(Radius.circular(15.0))),
+                              color: cardsColors[index],
+                              child: Padding(
+                                padding: const EdgeInsets.all(12),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children : [
+                                    Image.asset(cardsImages[index]),
+                                    Text("Hello")
+                                  ],
+                                ),
+                              )
+                              )
+                          )
+                    ],
+                  ),
+                );
+              }
+          )
+      );
+
+    }
+
+    showDialog(
+        context: context,
+        builder: (context)
+    {
+      return StatefulBuilder(
+          builder: (context, setState) {
+            return AlertDialog(
+              content: ListViewDialog(),
+
+            );
+          }
+        );
+
+      }
+      );
+  }
+
   @override
   void initState() {
       readNotes();
@@ -232,13 +302,17 @@ class _NotebookState extends State<Notebook>{
                                               ),
                                             ]
                                         )
-                                    )
+                                  )
                                 )
                                 ),
                         Positioned(
                         left: 170,
                         right: 0,
                         top: 0,
+                        child : InkWell(
+                          onTap: (){
+                            cardGallery();
+                          },
                         child: Image.asset("assets/images/create_note.png",
                         fit: BoxFit.fitWidth,
                         height: 200,
@@ -246,6 +320,7 @@ class _NotebookState extends State<Notebook>{
                         scale: 1.2,
 
                         ),
+                        )
                         )
                             ]
                   )
