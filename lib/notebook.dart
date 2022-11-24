@@ -246,7 +246,7 @@ class _NotebookState extends State<Notebook>{
       jsonString = file.readAsStringSync();
       cardSkin = jsonDecode(jsonString);
 
-      if (cardsTitles.length > cardSkin.keys.length){
+      if (notesTitles.length > cardSkin.keys.length){
         // New cards were added since last time
 
         notesTitles.sort();
@@ -287,6 +287,9 @@ class _NotebookState extends State<Notebook>{
         file.writeAsStringSync(jsonString);
       }
     }
+
+    print(currentCardsTheme);
+    print(notesTitles);
 
   }
 

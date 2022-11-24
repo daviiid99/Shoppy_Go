@@ -184,10 +184,28 @@ class _NoteState extends State<Note>{
     file.writeAsString(jsonString);
   }
 
+  getNoteIndex(Map<dynamic, dynamic> notes, String newNote) async {
+
+    var index = 0;
+    var note_index = 0;
+
+    // We'll need the index of the new note
+    for(String note in notes.keys){
+      if (note != newNote){
+        index ++;
+      } else {
+        note_index = index;
+      }
+    }
+
+    return note_index;
+  }
+
   renameNote(String note) async {
     myNotes.remove(myNote); // Remove current note
-    cardSkin.remove(theme); // Remove current note skin
+    cardSkin.remove(myNote); // Remove current note skin
     myNotes[note] = []; // Create new note with an empty list
+    final index = getNoteIndex(myNotes, note);
 
     Map<dynamic, dynamic> tempMap = {};
 
@@ -196,11 +214,20 @@ class _NoteState extends State<Note>{
       tempMap[product] = [currentImages[index], currentAmounts[index], currentUnits[index]];
     }
 
+    // write notes hash map
     final file = await  File("/data/user/0/com.daviiid99.shoppy_go/app_flutter/myNotes.json"); // get file path
     myNotes[note] = {};
     myNotes[note].addEntries(tempMap.entries);
     jsonString = jsonEncode(myNotes);
     file.writeAsString(jsonString);
+
+    // write cards hash map
+    final themeFile = await File("/data/user/0/com.daviiid99.shoppy_go/app_flutter/cards.json"); // get file path
+    cardSkin[note] = ""; // initialize
+    cardSkin[note] = theme ; // assign theme
+    jsonString = jsonEncode(cardSkin);
+    themeFile.writeAsStringSync(jsonString);
+
   }
 
   chooseNoteName() async {
