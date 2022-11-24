@@ -118,6 +118,16 @@ class _CreateState extends State<Create>{
                 }
               });
           }
+        } else {
+          for (String producto in splittedList){
+            if (producto.contains(subKey)){
+              // CASE 5
+              // CONTAINS A PLURAL FORM OF THE PRODUCT
+              checkProductType(producto, products[key][subKey][1], key, subKey);
+            } else if (subKey.contains(producto)) {
+              checkProductType(producto, products[key][subKey][1], key, subKey);
+            }
+          }
         }
 
     }

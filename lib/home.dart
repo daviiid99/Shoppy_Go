@@ -81,7 +81,7 @@ class _HomeState extends State<Home>{
       "lima" : ["assets/products/frutas/lima.png", "kg"],
       "mandarina" : ["assets/products/frutas/mandarina.png", "kg"],
       "mango" : ["assets/products/frutas/mango.png",  "kg"],
-      "manzana" : ["assets/products/frutas/manzana.png", "kg"],
+      "manzanas" : ["assets/products/frutas/manzana.png", "kg"],
       "melon" : ["assets/products/frutas/melon.png", "kg"],
       "membrillo" : ["assets/products/frutas/membrillo.png", "kg"],
       "mermelada" : ["assets/products/frutas/mermelada.png", "kg"],

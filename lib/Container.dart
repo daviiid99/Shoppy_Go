@@ -87,7 +87,7 @@ class Setup extends StatefulWidget {
     "lima" : ["/data/user/0/com.daviiid99.shoppy_go/app_flutter/lima.png", "kg"],
     "mandarina" : ["/data/user/0/com.daviiid99.shoppy_go/app_flutter/mandarina.png", "kg"],
     "mango" : ["/data/user/0/com.daviiid99.shoppy_go/app_flutter/mango.png",  "kg"],
-    "manzana" : ["/data/user/0/com.daviiid99.shoppy_go/app_flutter/manzana.png", "kg"],
+    "manzanas" : ["/data/user/0/com.daviiid99.shoppy_go/app_flutter/manzana.png", "kg"],
     "melon" : ["/data/user/0/com.daviiid99.shoppy_go/app_flutter/melon.png", "kg"],
     "membrillo" : ["/data/user/0/com.daviiid99.shoppy_go/app_flutter/membrillo.png", "kg"],
     "mermelada" : ["/data/user/0/com.daviiid99.shoppy_go/app_flutter/mermelada.png", "kg"],
