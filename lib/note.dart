@@ -15,24 +15,31 @@ class Note extends StatefulWidget{
   String myNote = "";
   Map<dynamic, dynamic> myNotes = {};
   Map<dynamic, dynamic> products = {};
+  Map<dynamic, dynamic> cardSkin = {};
+  String theme = "";
 
 
-  Note(String myNote, Map<dynamic, dynamic> myNotes, Map<dynamic, dynamic> products){
+  Note(String myNote, Map<dynamic, dynamic> myNotes, Map<dynamic, dynamic> products, Map<dynamic, dynamic> cardSkin, theme){
     this.myNote = myNote;
     this.myNotes = myNotes;
     this.products = products;
+    this.cardSkin = cardSkin;
+    this.theme =  theme;
   }
 
-  _NoteState createState() => _NoteState(this.myNote, this.myNotes, this.products);
+  _NoteState createState() => _NoteState(this.myNote, this.myNotes, this.products, this.cardSkin, this.theme);
 }
 
 class _NoteState extends State<Note>{
 
+
+  String theme = "";
   String myNote = "";
   String jsonString = "";
   Map<dynamic, dynamic> myNotes = {};
   Map<dynamic, dynamic> myNotesCopia = {};
   Map<dynamic, dynamic> products = {};
+  Map<dynamic, dynamic> cardSkin = {};
   List<String> currentProducts = [];
   List<double> currentAmounts = [];
   List<String>  currentImages = [];
@@ -43,10 +50,12 @@ class _NoteState extends State<Note>{
   List<String> tempUnits = [];
   final noteName = TextEditingController();
 
-  _NoteState(String myNote, Map<dynamic, dynamic> myNotes, Map<dynamic, dynamic> products){
+  _NoteState(String myNote, Map<dynamic, dynamic> myNotes, Map<dynamic, dynamic> products, Map<dynamic, dynamic> cardSkin, theme){
     this.myNote = myNote;
     this.myNotes = myNotes;
     this.products = products;
+    this.cardSkin = cardSkin;
+    this.theme = theme;
   }
 
   decodeCurrentNote() async{
@@ -177,6 +186,7 @@ class _NoteState extends State<Note>{
 
   renameNote(String note) async {
     myNotes.remove(myNote); // Remove current note
+    cardSkin.remove(theme); // Remove current note skin
     myNotes[note] = []; // Create new note with an empty list
 
     Map<dynamic, dynamic> tempMap = {};

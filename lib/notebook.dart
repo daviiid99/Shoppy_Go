@@ -371,7 +371,7 @@ class _NotebookState extends State<Notebook>{
                                                   readNotes();
                                                   Navigator.push(
                                                       context,
-                                                  MaterialPageRoute(builder: (context) => Note(notesTitles[index], myNotes, products)));
+                                                  MaterialPageRoute(builder: (context) => Note(notesTitles[index], myNotes, products, cardSkin, cardSkin[notesTitles[index]])));
                                                 },
                                               ),
 
