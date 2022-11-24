@@ -3,7 +3,8 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:path_provider/path_provider.dart';
-
+import 'package:speech_to_text/speech_recognition_result.dart';
+import 'package:speech_to_text/speech_to_text.dart';
 
 class Create extends StatefulWidget{
   @override
@@ -44,6 +45,11 @@ class _CreateState extends State<Create>{
   List<String> currentFoodUnits = [];
   String hint = "Escribe un producto";
 
+  // Set of variables used by the Speech to text package
+  SpeechToText microphone = SpeechToText(); // variable of the library
+  bool listening = false; // variable to determine if is listening or not
+  String listened = ""; // Current listened word or phrase
+
   Future<String> get _LocalFilePath async {
     final dir = await getApplicationDocumentsDirectory();
     return dir.path;
@@ -52,6 +58,47 @@ class _CreateState extends State<Create>{
   Future<File> get _LocalFile async {
     final path = await _LocalFilePath;
     return File("$path/$jsonFile");
+  }
+
+  void startMicrophone() async {
+    // START MICROPHONE SERVICE
+    // According to Sppech to text source
+    // This can only be initialized once per app
+    listening = await microphone.initialize();
+    setState(() {
+    });
+  }
+
+  void startListening() async {
+    // START MICROPHONE LISTENING
+    // This needs to be done everytime the user requires this feature
+    if (listening){
+       microphone.listen(onResult: listenedWords );
+      setState(() {
+      });
+    } else {
+    }
+
+  }
+
+  void stopListening() async {
+    // STOP MICROPHONE LISTENING
+    // This needs to be done everytime the user ends a microphone session
+    await microphone.stop();
+    setState(() {
+    });
+  }
+
+  void listenedWords(SpeechRecognitionResult result) async {
+    // LATEST RECOGNIZED WORDS
+    // This method gets the latest listened words
+    setState(() {
+      listened = result.recognizedWords;
+      if (listened.isNotEmpty){
+        addProductToList(listened);
+        stopListening();
+      }
+    });
   }
 
   addProductToList(String producto) async {
@@ -120,13 +167,11 @@ class _CreateState extends State<Create>{
           }
         } else {
           for (String producto in splittedList){
-            if (producto.contains(subKey)){
-              // CASE 5
-              // CONTAINS A PLURAL FORM OF THE PRODUCT
+         if (subKey.contains(producto)) {
               checkProductType(producto, products[key][subKey][1], key, subKey);
-            } else if (subKey.contains(producto)) {
-              checkProductType(producto, products[key][subKey][1], key, subKey);
-            }
+            } else if (producto.contains(subKey)){
+           checkProductType(producto, products[key][subKey][1], key, subKey);
+         }
           }
         }
 
@@ -424,7 +469,7 @@ class _CreateState extends State<Create>{
       }
     });
 
-
+    startMicrophone();
     super.initState();
   }
 
@@ -466,7 +511,7 @@ class _CreateState extends State<Create>{
           if (currentFood.isEmpty)
             Expanded(
             child: Column(children: [
-              SizedBox(height: 60,),
+              SizedBox(height: 10,),
             Image.asset("assets/images/empty_basket.png"), Text("Tu cesta esta vacía\nAñade algun producto", style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),)])),
 
           Expanded(
@@ -555,19 +600,43 @@ class _CreateState extends State<Create>{
 
           SizedBox(height: 10),
 
+
+          SizedBox(
+              width: double.infinity,
+              height: 75,
+              child:TextButton.icon(
+                style: TextButton.styleFrom(
+                  backgroundColor: Colors.black45,
+                  padding: const EdgeInsets.all(12.0),
+                ),
+                label: Text("Hablar", style: TextStyle(color: Colors.white),),
+                icon: Icon(microphone.isNotListening ? Icons.mic_off_rounded : Icons.mic_rounded),
+                onPressed: (){
+                  startListening();
+                  microphone.isNotListening ? startListening() : stopListening();
+                },
+              ),
+            ),
+
+          SizedBox(height: 10),
+
           SizedBox(
             width: double.infinity,
             height: 75,
-            child : TextButton(
+            child : TextButton.icon(
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.black45,
                 padding: const EdgeInsets.all(12.0),
               ),
-              child: Text("Añadir", style: TextStyle(color: Colors.white),),
+              icon: Icon(Icons.add_rounded),
+              label: Text("Añadir", style: TextStyle(color: Colors.white),),
               onPressed: () async{
-                await addProductToList(product.text);
-                FocusManager.instance.primaryFocus?.unfocus();
-                product.text = "";
+                if (product.text.isNotEmpty){
+                  await addProductToList(product.text);
+                  FocusManager.instance.primaryFocus?.unfocus();
+                  product.text = "";
+                }
+
               },
             ),
           ),

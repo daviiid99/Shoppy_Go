@@ -19,7 +19,7 @@ class _HomeState extends State<Home>{
 
   String jsonFile = "products.json";
   String jsonString = "";
-  String version = "2.6.2";
+  String version = "3.0.0";
   String myNote = "";
 
   Map<dynamic, dynamic> products = {
@@ -86,7 +86,6 @@ class _HomeState extends State<Home>{
       "membrillo" : ["assets/products/frutas/membrillo.png", "kg"],
       "mermelada" : ["assets/products/frutas/mermelada.png", "kg"],
       "naranjas" : ["assets/products/frutas/naranja.png", "kg"],
-      "paraguayo" : ["assets/products/frutas/paraguayo.jpg", "kg"],
       "peras" : ["assets/products/frutas/pera.png", "kg"],
       "piña" :  ["assets/products/frutas/piña.png", "kg"],
       "pomelos" : ["assets/products/frutas/pomelo.png", "kg"],
