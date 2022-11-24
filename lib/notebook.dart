@@ -19,6 +19,7 @@ class _NotebookState extends State<Notebook>{
   Map<dynamic, dynamic> myNotes = {};
   Map<dynamic, dynamic> products = {};
   Map<dynamic, dynamic> cardSkin = {};
+  final file = File("/data/user/0/com.daviiid99.shoppy_go/app_flutter/cards.json");
   String jsonString = "";
   String jsonFile = "myNotes.json";
   int selectCardIndex = 0;
@@ -66,8 +67,9 @@ class _NotebookState extends State<Notebook>{
           });
         }
       }
-
-      notesTitles.sort();
+      setState(() {
+        notesTitles.sort();
+      });
 
     } catch (e){
       print(e);
@@ -140,14 +142,18 @@ class _NotebookState extends State<Notebook>{
       myNotes.remove(nota);
       var indice = notesTitles.indexOf(nota);
       notesTitles.remove(notesTitles[indice]);
+      cardSkin.remove(nota);
     });
 
     // Get json file source
     final file = await _LocalFile;
 
-    // Encode json
+    // Encode json (Notes)
     jsonString = jsonEncode(myNotes);
     file.writeAsString(jsonString);
+
+    // Encode json (Theme)
+    overwriteCardTheme();
 
   }
 
@@ -227,7 +233,6 @@ class _NotebookState extends State<Notebook>{
   overwriteCardTheme() async{
     //User changed his cards theme
     // We'll overwrite JSON file with the changes
-    final file = File("/data/user/0/com.daviiid99.shoppy_go/app_flutter/cards.json");
     jsonString = jsonEncode(cardSkin);
     file.writeAsStringSync(jsonString);
   }
@@ -235,17 +240,16 @@ class _NotebookState extends State<Notebook>{
   readCardsTheme() async {
     // We'll restore cards theme from JSON if exists
 
-    final file = File("/data/user/0/com.daviiid99.shoppy_go/app_flutter/cards.json");
 
     if (file.existsSync()){
       // File exists, time to restore everything
       jsonString = file.readAsStringSync();
       cardSkin = jsonDecode(jsonString);
 
-      print(cardSkin);
-
       if (cardsTitles.length > cardSkin.keys.length){
         // New cards were added since last time
+
+        notesTitles.sort();
 
         for (String card in notesTitles){
           if (!cardSkin.containsKey(card)){
@@ -257,7 +261,17 @@ class _NotebookState extends State<Notebook>{
 
       overwriteCardTheme(); // save changes
 
+      List<String> sort_skins =  [];
+
       for (String card in cardSkin.keys){
+        // Dic isn't sort in alphabetical order, we must sort it manually
+        sort_skins.add(card);
+      }
+      sort_skins.sort();
+
+
+
+        for (String card in sort_skins){
           currentCardsTheme.add(cardSkin[card]);
           currentCardsColor.add(cardsColors[cardsImages.indexOf(cardSkin[card])]);
       }
@@ -276,13 +290,22 @@ class _NotebookState extends State<Notebook>{
 
   }
 
+  cardsFileExists() async {
+    if (!file.existsSync()){
+      // Write file for next read
+      jsonString = jsonEncode(cardSkin);
+      file.writeAsStringSync(jsonString);
+    }
+
+  }
+
   @override
   void initState() {
     setState(() async {
+      await cardsFileExists();
       await readNotes();
-      readCardsTheme();
+      readCardsTheme(); // Add images
     });
-
     super.initState();
   }
 
