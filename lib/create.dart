@@ -858,56 +858,39 @@ class _CreateState extends State<Create>{
                 ),
                 border: OutlineInputBorder(
                 ),
+                suffixIcon: InkWell(
+                  // Using a inkwell widget we can predit different press states
+                  onLongPress: (){
+                    // Start listening
+                    if (product.text.isEmpty){
+                      startListening();
+                      microphone.isNotListening ? startListening() : stopListening();
+                    }
+                  },
+                child : TextButton.icon(
+                  style: TextButton.styleFrom(
+                    backgroundColor: Colors.transparent,
+                    padding: const EdgeInsets.all(12.0),
+                  ),
+                  label: Text("", style: TextStyle(color: Colors.white),),
+                  icon: Icon(microphone.isNotListening ? Icons.send_rounded : Icons.mic_rounded),
+                  onPressed: (){
+                    setState(() async {
+                      if (product.text.isNotEmpty){
+                        await addProductToList(product.text);
+                        FocusManager.instance.primaryFocus?.unfocus();
+                        product.text = "";
+                      }
+                    });
+                  },
+                ),
+                ),
                 hintText: hint), cursorColor: Colors.white,
             controller: product,
-            onTap: (){
-            },
             keyboardType: TextInputType.name,
 
           ),
 
-          SizedBox(height: 10),
-
-
-          SizedBox(
-              width: double.infinity,
-              height: 75,
-              child:TextButton.icon(
-                style: TextButton.styleFrom(
-                  backgroundColor: Colors.black45,
-                  padding: const EdgeInsets.all(12.0),
-                ),
-                label: Text("Hablar", style: TextStyle(color: Colors.white),),
-                icon: Icon(microphone.isNotListening ? Icons.mic_off_rounded : Icons.mic_rounded),
-                onPressed: (){
-                  startListening();
-                  microphone.isNotListening ? startListening() : stopListening();
-                },
-              ),
-            ),
-
-          SizedBox(height: 10),
-
-          SizedBox(
-            width: double.infinity,
-            height: 75,
-            child : TextButton.icon(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.black45,
-                padding: const EdgeInsets.all(12.0),
-              ),
-              icon: Icon(Icons.add_rounded),
-              label: Text("Añadir", style: TextStyle(color: Colors.white),),
-              onPressed: () async{
-                if (product.text.isNotEmpty){
-                  await addProductToList(product.text);
-                  FocusManager.instance.primaryFocus?.unfocus();
-                  product.text = "";
-                }
-
-              },
-            ),
-          ),
 
 
           SizedBox(height: 30,)
