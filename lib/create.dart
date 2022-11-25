@@ -29,6 +29,7 @@ class _CreateState extends State<Create>{
   String jsonFile = "myNotes.json";
   bool isEmpty = true;
   String myNote = "";
+  bool allFail = false;
 
   _CreateState(products, isEmpty, myNote ) {
     this.products = products;
@@ -180,7 +181,274 @@ class _CreateState extends State<Create>{
     if(!currentFood.contains(producto)){
       // Additional checks for most common products
       machineLearning(splittedList, producto);
+      checkSyntax(producto);
+
     }
+  }
+
+  Future<int> wordCoincidences(String palabra, String letter) async {
+    // A simple method that returns all coincidences of a word
+
+    int counter = 0;
+
+    for (String char in palabra.characters){
+      if (char  == letter){
+        counter ++;
+
+      }
+    }
+    return counter;
+
+  }
+
+  checkSyntax(String producto) async {
+
+    int aCounter = 0;
+    int eCounter = 0;
+    int iCounter = 0;
+    int oCounter = 0;
+    int uCounter = 0;
+    int totalCounter = 0;
+    int productos = currentFood.length;
+
+    // Getting all vocals counters for later
+    aCounter = await wordCoincidences(producto, "a");
+    eCounter = await wordCoincidences(producto, "e");
+    iCounter = await wordCoincidences(producto, "i");
+    oCounter = await wordCoincidences(producto, "o");
+    uCounter = await wordCoincidences(producto, "u");
+
+    while (productos == currentFood.length && !allFail){
+      if (totalCounter == 0){
+        checkProductSyntax(producto, aCounter, "a"  );
+        totalCounter ++ ;
+      } else if (totalCounter == 1){
+        checkProductSyntax(producto, eCounter, "e"  );
+        totalCounter ++ ;
+      } else if (totalCounter == 2){
+        checkProductSyntax(producto, iCounter, "i"  );
+        totalCounter ++ ;
+      } else if (totalCounter == 3){
+        checkProductSyntax(producto, oCounter, "o" );
+        totalCounter ++ ;
+      } else if (totalCounter == 4){
+        checkProductSyntax(producto, uCounter, "u" );
+        totalCounter ++ ;
+      } else {
+        setState(() {
+          allFail = true;
+        });
+      }
+    }
+
+    setState(() {
+      allFail = false;
+    });
+
+
+
+  }
+  checkProductSyntax(String originalProduct, int counter, String letra) async {
+    // We'll check the syntax used to define the product if product is not detected
+
+    String tempProduct = "";
+    int count = 0;
+    List<int> pos = [];
+    int coincidences = 0;
+    bool allowed = true;
+    bool initial_counter = true;
+    int all_Category = 0;
+    int target = 1;
+    String targetCategory = "";
+    String targetProduct = "";
+    String targetUser = "";
+    bool esA = true;
+    bool esE = true;
+    bool esI = true;
+    bool esO = true;
+    bool esU = true;
+    bool read = true;
+    int checks = 0; // This is used to stop iteration
+
+    coincidences = counter;
+
+    // Disable unused words
+    if (letra == "a"){
+      esE = false;
+      esI = false;
+      esO = false;
+      esU = false;
+    } else if (letra == "e"){
+        esA = false;
+        esI = false;
+        esO = false;
+        esU = false;
+    } else if (letra == "i"){
+      esA = false;
+      esE = false;
+      esO = false;
+      esU = false;
+    } else if (letra == "o"){
+      esA = false;
+      esE = false;
+      esI  = false;
+      esU = false;
+    } else if (letra == "u"){
+      esA = false;
+      esE = false;
+      esI = false;
+      esO = false;
+    }
+
+    while (checks < coincidences)  {
+      for (String categoria in products.keys) {
+        all_Category ++;
+        for (String producto in products[categoria].keys) {
+
+            if (pos.length != coincidences && allowed) {
+              // Check all possibilities
+              for (String char in originalProduct.characters) {
+                if (esA){
+                  if (char == "a") {
+                    if (pos.length < count) {
+                      // Add previous "a" without accent
+                      tempProduct += char;
+                      pos.add(originalProduct.indexOf(char));
+                    } else if (allowed) {
+                      // coincidence
+                      char = "á";
+                      tempProduct += char;
+                      pos.add(originalProduct.indexOf(char));
+                      count ++;
+                      allowed = false; // Only a change per iteration
+                    } else {
+                      tempProduct += char;
+                    }
+                  } else {
+                    // Add remaining
+                    tempProduct += char;
+                  }
+                } if (esE){
+                  if (char == "e") {
+                    if (pos.length < count) {
+                      // Add previous "e" without accent
+                      tempProduct += char;
+                      pos.add(originalProduct.indexOf(char));
+                    } else if (allowed) {
+                      // coincidence
+                      char = "é";
+                      tempProduct += char;
+                      pos.add(originalProduct.indexOf(char));
+                      count ++;
+                      allowed = false; // Only a change per iteration
+                    } else {
+                      tempProduct += char;
+                    }
+                  } else {
+                    // Add remaining
+                    tempProduct += char;
+                  }
+                }
+
+                if (esI){
+                  if (char == "i") {
+                    if (pos.length < count) {
+                      // Add previous "i" without accent
+                      tempProduct += char;
+                      pos.add(originalProduct.indexOf(char));
+                    } else if (allowed) {
+                      // coincidence
+                      char = "í";
+                      tempProduct += char;
+                      pos.add(originalProduct.indexOf(char));
+                      count ++;
+                      allowed = false; // Only a change per iteration
+                    } else {
+                      tempProduct += char;
+                    }
+                  } else {
+                    // Add remaining
+                    tempProduct += char;
+                  }
+                } if (esO){
+                  if (char == "o") {
+                    if (pos.length < count) {
+                      // Add previous "a" without accent
+                      tempProduct += char;
+                      pos.add(originalProduct.indexOf(char));
+                    } else if (allowed) {
+                      // coincidence
+                      char = "ó";
+                      tempProduct += char;
+                      pos.add(originalProduct.indexOf(char));
+                      count ++;
+                      allowed = false; // Only a change per iteration
+                    } else {
+                      tempProduct += char;
+                    }
+                  } else {
+                    // Add remaining
+                    tempProduct += char;
+                  }
+                } if (esU){
+                  if (char == "u") {
+                    if (pos.length < count) {
+                      // Add previous "a" without accent
+                      tempProduct += char;
+                      pos.add(originalProduct.indexOf(char));
+                    } else if (allowed) {
+                      // coincidence
+                      char = "ú";
+                      tempProduct += char;
+                      pos.add(originalProduct.indexOf(char));
+                      count ++;
+                      allowed = false; // Only a change per iteration
+                    } else {
+                      tempProduct += char;
+                    }
+                  } else {
+                    // Add remaining
+                    tempProduct += char;
+                  }
+                }
+
+              }
+            }
+
+
+            if (producto.contains(tempProduct)) {
+              if (target == 1){
+                target = 0;
+                targetUser = tempProduct;
+                targetProduct = producto;
+                targetCategory = categoria;
+              }
+              coincidences = 0;
+            } else {
+              if (all_Category == products.keys.length) {
+                if (all_Category != 0) {
+                  checks ++;
+                  allowed = true;
+                  tempProduct = "";
+                  all_Category = 0;
+                  pos = [];
+                }
+
+                if (letra == "u" && checks == coincidences){
+                  setState ((){
+                    allFail = true;
+                  });
+                }
+              }
+          }
+        }
+      }
+    }
+    if (targetUser != ""){
+      checkProductType(targetUser, products[targetCategory][targetProduct][1], targetCategory,
+          targetProduct);
+    }
+
   }
 
   checkProductType(String producto, String unidad, String categoria, String product) async {
