@@ -77,7 +77,7 @@ class Setup extends StatefulWidget {
   },
 
   "frutas" : {
-    "arandanos" : ["/data/user/0/com.daviiid99.shoppy_go/app_flutter/arandano.jpg", "kg"],
+    "arándanos" : ["/data/user/0/com.daviiid99.shoppy_go/app_flutter/arandano.jpg", "kg"],
     "ciruelas" : ["/data/user/0/com.daviiid99.shoppy_go/app_flutter/ciruelas.png", "kg"],
     "coco" : ["/data/user/0/com.daviiid99.shoppy_go/app_flutter/coco.png", "unidad(es)"],
     "frambuesa" : ["/data/user/0/com.daviiid99.shoppy_go/app_flutter/frambuesa.png","kg"],
@@ -88,15 +88,15 @@ class Setup extends StatefulWidget {
     "mandarina" : ["/data/user/0/com.daviiid99.shoppy_go/app_flutter/mandarina.png", "kg"],
     "mango" : ["/data/user/0/com.daviiid99.shoppy_go/app_flutter/mango.png",  "kg"],
     "manzanas" : ["/data/user/0/com.daviiid99.shoppy_go/app_flutter/manzana.png", "kg"],
-    "melon" : ["/data/user/0/com.daviiid99.shoppy_go/app_flutter/melon.png", "kg"],
+    "melón" : ["/data/user/0/com.daviiid99.shoppy_go/app_flutter/melon.png", "kg"],
     "membrillo" : ["/data/user/0/com.daviiid99.shoppy_go/app_flutter/membrillo.png", "kg"],
     "mermelada" : ["/data/user/0/com.daviiid99.shoppy_go/app_flutter/mermelada.png", "kg"],
     "naranjas" : ["/data/user/0/com.daviiid99.shoppy_go/app_flutter/naranja.png", "kg"],
     "peras" : ["/data/user/0/com.daviiid99.shoppy_go/app_flutter/pera.png", "kg"],
     "piña" :  ["/data/user/0/com.daviiid99.shoppy_go/app_flutter/piña.png", "kg"],
     "pomelos" : ["/data/user/0/com.daviiid99.shoppy_go/app_flutter/pomelo.png", "kg"],
-    "platanos" : ["/data/user/0/com.daviiid99.shoppy_go/app_flutter/platanos.png", "kg"],
-    "sandia" : ["/data/user/0/com.daviiid99.shoppy_go/app_flutter/sandia.png", "kg"],
+    "plátanos" : ["/data/user/0/com.daviiid99.shoppy_go/app_flutter/platanos.png", "kg"],
+    "sandía" : ["/data/user/0/com.daviiid99.shoppy_go/app_flutter/sandia.png", "kg"],
     "uvas" : ["/data/user/0/com.daviiid99.shoppy_go/app_flutter/uvas.png", "kg"],
   },
 
@@ -117,7 +117,7 @@ class Setup extends StatefulWidget {
     "colonia" : ["/data/user/0/com.daviiid99.shoppy_go/app_flutter/colonia.png", "unidad(es)"],
     "desodorante" : ["/data/user/0/com.daviiid99.shoppy_go/app_flutter/desodorante.png", "unidad(es)"],
     "detergente" : ["/data/user/0/com.daviiid99.shoppy_go/app_flutter/detergente.png","unidad(es)"],
-    "lejia" : ["/data/user/0/com.daviiid99.shoppy_go/app_flutter/lejia.jpg", "unidad(es)"],
+    "lejía" : ["/data/user/0/com.daviiid99.shoppy_go/app_flutter/lejia.jpg", "unidad(es)"],
     "nenuco" : ["/data/user/0/com.daviiid99.shoppy_go/app_flutter/nenuco.jpg","unidad(es)"],
     "papel higienico" : ["/data/user/0/com.daviiid99.shoppy_go/app_flutter/higienico.png","unidad(es)"],
     "pañales" : ["/data/user/0/com.daviiid99.shoppy_go/app_flutter/panales.jpg","unidad(es)"],
@@ -169,7 +169,7 @@ class Setup extends StatefulWidget {
   },
 
   "pescados" : {
-    "atun" : ["/data/user/0/com.daviiid99.shoppy_go/app_flutter/atun.png", "kg"],
+    "atún" : ["/data/user/0/com.daviiid99.shoppy_go/app_flutter/atun.png", "kg"],
     "bogavante" : ["/data/user/0/com.daviiid99.shoppy_go/app_flutter/bogavante.jpg","kg"],
     "boquerones" : ["/data/user/0/com.daviiid99.shoppy_go/app_flutter/boquerones.png","kg"],
     "caballa" : ["/data/user/0/com.daviiid99.shoppy_go/app_flutter/caballa.jpg","kg"],
@@ -211,7 +211,7 @@ class Setup extends StatefulWidget {
   },
 
   "shampoos" : {
-    "champu" : ["/data/user/0/com.daviiid99.shoppy_go/app_flutter/shampoo.png","unidad(es)"],
+    "champú" : ["/data/user/0/com.daviiid99.shoppy_go/app_flutter/shampoo.png","unidad(es)"],
     "gel" : ["/data/user/0/com.daviiid99.shoppy_go/app_flutter/gel.png","unidad(es)"],
   },
 
@@ -226,7 +226,7 @@ class Setup extends StatefulWidget {
     "coliflor" : ["/data/user/0/com.daviiid99.shoppy_go/app_flutter/coliflor.png","kg"],
     "espinacas" : ["/data/user/0/com.daviiid99.shoppy_go/app_flutter/espinacas.jpg","kg"],
     "lechuga" : ["/data/user/0/com.daviiid99.shoppy_go/app_flutter/lechuga.png","kg"],
-    "limon" : ["/data/user/0/com.daviiid99.shoppy_go/app_flutter/limon.png","kg"],
+    "limón" : ["/data/user/0/com.daviiid99.shoppy_go/app_flutter/limon.png","kg"],
     "puerro" : ["/data/user/0/com.daviiid99.shoppy_go/app_flutter/puerro.png","kg"],
   },
     };

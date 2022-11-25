@@ -71,7 +71,7 @@ class _HomeState extends State<Home>{
     },
 
     "frutas" : {
-      "arandanos" : ["assets/products/frutas/arandano.jpg", "kg"],
+      "arándanos" : ["assets/products/frutas/arandano.jpg", "kg"],
       "ciruelas" : ["assets/products/frutas/ciruelas.png", "kg"],
       "coco" : ["assets/products/frutas/coco.png", "unidad(es)"],
       "frambuesa" : ["assets/products/frutas/frambuesa.png","kg"],
@@ -82,15 +82,15 @@ class _HomeState extends State<Home>{
       "mandarina" : ["assets/products/frutas/mandarina.png", "kg"],
       "mango" : ["assets/products/frutas/mango.png",  "kg"],
       "manzanas" : ["assets/products/frutas/manzana.png", "kg"],
-      "melon" : ["assets/products/frutas/melon.png", "kg"],
+      "melón" : ["assets/products/frutas/melon.png", "kg"],
       "membrillo" : ["assets/products/frutas/membrillo.png", "kg"],
       "mermelada" : ["assets/products/frutas/mermelada.png", "kg"],
       "naranjas" : ["assets/products/frutas/naranja.png", "kg"],
       "peras" : ["assets/products/frutas/pera.png", "kg"],
       "piña" :  ["assets/products/frutas/piña.png", "kg"],
       "pomelos" : ["assets/products/frutas/pomelo.png", "kg"],
-      "platanos" : ["assets/products/frutas/platanos.png", "kg"],
-      "sandia" : ["assets/products/frutas/sandia.png", "kg"],
+      "plátanos" : ["assets/products/frutas/platanos.png", "kg"],
+      "sandía" : ["assets/products/frutas/sandia.png", "kg"],
       "uvas" : ["assets/products/frutas/uvas.png", "kg"],
     },
 
@@ -112,9 +112,9 @@ class _HomeState extends State<Home>{
       "desodorante" : ["assets/products/higiene/desodorante.png", "unidad(es)"],
       "detergente" : ["assets/products/higiene/detergente.png","unidad(es)"],
       "jabon" : ["assets/products/higiene/jabon.png", "unidad(es)"],
-      "lejia" : ["assets/products/higiene/lejia.jpg", "unidad(es)"],
+      "lejía" : ["assets/products/higiene/lejia.jpg", "unidad(es)"],
       "nenuco" : ["assets/products/higiene/nenuco.jpg","unidad(es)"],
-      "papel higienico" : ["assets/products/higiene/higienico.png","unidad(es)"],
+      "papel higiénico" : ["assets/products/higiene/higienico.png","unidad(es)"],
       "pañales" : ["assets/products/higiene/panales.jpg","unidad(es)"],
       "toallitas" : ["assets/products/higiene/toallitas.png","unidad(es)"],
     },
@@ -165,7 +165,7 @@ class _HomeState extends State<Home>{
     },
 
     "pescados" : {
-      "atun" : ["assets/products/pescados/atun.png", "kg"],
+      "atún" : ["assets/products/pescados/atun.png", "kg"],
       "bogavante" : ["assets/products/pescados/bogavante.jpg","kg"],
       "boquerones" : ["assets/products/pescados/boquerones.png","kg"],
       "caballa" : ["assets/products/pescados/caballa.jpg","kg"],
@@ -206,7 +206,7 @@ class _HomeState extends State<Home>{
     },
 
     "shampoos" : {
-      "champu" : ["assets/products/shampoos/shampoo.png","unidad(es)"],
+      "champú" : ["assets/products/shampoos/shampoo.png","unidad(es)"],
       "gel" : ["assets/products/shampoos/gel.png","unidad(es)"],
     },
 
@@ -221,7 +221,7 @@ class _HomeState extends State<Home>{
       "coliflor" : ["assets/products/verduras/coliflor.png","kg"],
       "espinacas" : ["assets/products/verduras/espinacas.jpg","kg"],
       "lechuga" : ["assets/products/verduras/lechuga.png","kg"],
-      "limon" : ["assets/products/verduras/limon.png","kg"],
+      "limón" : ["assets/products/verduras/limon.png","kg"],
       "puerro" : ["assets/products/verduras/puerro.png","kg"],
     },
   };
