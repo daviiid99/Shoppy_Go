@@ -51,6 +51,9 @@ class _CreateState extends State<Create>{
   bool listening = false; // variable to determine if is listening or not
   String listened = ""; // Current listened word or phrase
   bool isTyping = false;
+  int sending = 0;
+  bool isPreviousButton = false;
+  int count = 0;
 
   // Set of variables for icons
   IconData send = Icons.send_rounded;
@@ -850,6 +853,9 @@ class _CreateState extends State<Create>{
 
           InkWell(
           child : TextFormField(
+            onTap: (){
+
+            },
             textAlign: TextAlign.left,
             style: TextStyle(color: Colors.black),
             decoration: InputDecoration(
@@ -866,10 +872,12 @@ class _CreateState extends State<Create>{
                 ),
                 suffixIcon: InkWell(
                   // Using a inkwell widget we can predit different press states
-                  onLongPress: (){
+                  onLongPress: () async{
                     // Start listening
                     if (product.text.isEmpty){
-                      isTyping = false;
+                      setState((){
+                        isTyping = false;
+                      });
                       mic = Icons.mic_rounded;
                       startListening();
                       microphone.isNotListening ? startListening() : stopListening();
@@ -882,16 +890,21 @@ class _CreateState extends State<Create>{
                   ),
                   label: Text("", style: TextStyle(color: Colors.white),),
                   icon: Icon(isTyping ? send : mic,),
-                  onPressed: (){
+                  onPressed: () async {
                     setState(() async {
                       if (product.text.isNotEmpty){
                         await addProductToList(product.text);
-                        FocusManager.instance.primaryFocus?.unfocus();
                         product.text = "";
-                        isTyping = false;
+                        if (isTyping){
+                          // no focuse change
+                          if (product.text.length == 0) isTyping = false;
+                          isPreviousButton = true;
+                          FocusManager.instance.primaryFocus?.unfocus();
+                        }
                       }
                     });
                   },
+
                 ),
                 ),
                 hintText: hint), cursorColor: Colors.white,
@@ -901,9 +914,40 @@ class _CreateState extends State<Create>{
           ),
 
             onFocusChange:(_) async{
-            setState(() {
-              if (!isTyping) isTyping = true;
-              else if (isTyping) isTyping = false;
+
+            setState(() async {
+              // Start typing
+
+              if (!isPreviousButton) {
+                if (product.text.isEmpty || product.text.isNotEmpty) {
+                  // 2 possibilities
+                  if (!isTyping) {
+                    // Enable keyboard
+                    isTyping = true;
+                  } else {
+                    // Close keyboard
+                    if (product.text.isEmpty) {
+                      // User entered a product
+                      isTyping = false;
+                    } else {
+                      // There's still content
+                      // Await for it to be empty before modifying current state
+                      if (product.text.length == 0) isTyping = false;
+                      count ++;
+                    }
+                  }
+                }
+              } else {
+                if (count == 1){
+                  isPreviousButton = false;
+                  isTyping = true;
+                  count = 0;
+                } else {
+                  count ++;
+                }
+              }
+
+
             });
             },
           ),
