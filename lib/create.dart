@@ -97,7 +97,6 @@ class _CreateState extends State<Create>{
       listened = result.recognizedWords;
       if (listened.isNotEmpty){
         addProductToList(listened);
-        stopListening();
       }
     });
   }
@@ -753,7 +752,7 @@ class _CreateState extends State<Create>{
             child : SizedBox(
               width: double.infinity,
               height: 40,
-              child : TextButton(
+              child : ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.black45,
                   padding: const EdgeInsets.all(12.0),
@@ -779,7 +778,7 @@ class _CreateState extends State<Create>{
           if (currentFood.isEmpty)
             Expanded(
             child: Column(children: [
-              SizedBox(height: 10,),
+              SizedBox(height: 70,),
             Image.asset("assets/images/empty_basket.png"), Text("Tu cesta esta vacía\nAñade algun producto", style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),)])),
 
           Expanded(
@@ -844,7 +843,7 @@ class _CreateState extends State<Create>{
           ),
 
           TextFormField(
-            textAlign: TextAlign.center,
+            textAlign: TextAlign.left,
             style: TextStyle(color: Colors.black),
             decoration: InputDecoration(
                 fillColor: Colors.white,
