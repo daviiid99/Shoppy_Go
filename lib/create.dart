@@ -50,6 +50,11 @@ class _CreateState extends State<Create>{
   SpeechToText microphone = SpeechToText(); // variable of the library
   bool listening = false; // variable to determine if is listening or not
   String listened = ""; // Current listened word or phrase
+  bool isTyping = false;
+
+  // Set of variables for icons
+  IconData send = Icons.send_rounded;
+  IconData mic = Icons.mic_off_rounded;
 
   Future<String> get _LocalFilePath async {
     final dir = await getApplicationDocumentsDirectory();
@@ -97,6 +102,7 @@ class _CreateState extends State<Create>{
       listened = result.recognizedWords;
       if (listened.isNotEmpty){
         addProductToList(listened);
+        mic = Icons.mic_off_rounded;
       }
     });
   }
@@ -842,7 +848,8 @@ class _CreateState extends State<Create>{
               )
           ),
 
-          TextFormField(
+          InkWell(
+          child : TextFormField(
             textAlign: TextAlign.left,
             style: TextStyle(color: Colors.black),
             decoration: InputDecoration(
@@ -862,6 +869,8 @@ class _CreateState extends State<Create>{
                   onLongPress: (){
                     // Start listening
                     if (product.text.isEmpty){
+                      isTyping = false;
+                      mic = Icons.mic_rounded;
                       startListening();
                       microphone.isNotListening ? startListening() : stopListening();
                     }
@@ -872,13 +881,14 @@ class _CreateState extends State<Create>{
                     padding: const EdgeInsets.all(12.0),
                   ),
                   label: Text("", style: TextStyle(color: Colors.white),),
-                  icon: Icon(microphone.isNotListening ? Icons.send_rounded : Icons.mic_rounded),
+                  icon: Icon(isTyping ? send : mic,),
                   onPressed: (){
                     setState(() async {
                       if (product.text.isNotEmpty){
                         await addProductToList(product.text);
                         FocusManager.instance.primaryFocus?.unfocus();
                         product.text = "";
+                        isTyping = false;
                       }
                     });
                   },
@@ -888,6 +898,14 @@ class _CreateState extends State<Create>{
             controller: product,
             keyboardType: TextInputType.name,
 
+          ),
+
+            onFocusChange:(_) async{
+            setState(() {
+              if (!isTyping) isTyping = true;
+              else if (isTyping) isTyping = false;
+            });
+            },
           ),
 
 
