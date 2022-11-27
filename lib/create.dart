@@ -872,7 +872,7 @@ class _CreateState extends State<Create>{
                   // Using a inkwell widget we can predit different press states
                   onLongPress: () async{
                     // Start listening
-                    if (product.text.isEmpty){
+                    if (product.text.isEmpty && !isTyping){
                       setState((){
                         isTyping = false;
                       });
