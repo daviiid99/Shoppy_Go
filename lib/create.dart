@@ -899,7 +899,6 @@ class _CreateState extends State<Create>{
                       } else {
                         FocusManager.instance.primaryFocus?.unfocus();
                         focusChange = true;
-                        print("2/3");
                       }
                     });
                   },
@@ -921,7 +920,6 @@ class _CreateState extends State<Create>{
                 // Last time there was a button click that lead to a focuse change
                 isTyping = false;
                 focusChange = false;
-                print("3/3");
               }
               else {
                 if (product.text.isEmpty || product.text.isNotEmpty) {
@@ -929,7 +927,6 @@ class _CreateState extends State<Create>{
                   if (!isTyping) {
                     // Enable keyboard
                     isTyping = true;
-                    print("1/3");
                   } else {
                     // Close keyboard
                     if (product.text.isEmpty) {

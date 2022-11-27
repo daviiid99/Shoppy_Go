@@ -287,10 +287,6 @@ class _NotebookState extends State<Notebook>{
         file.writeAsStringSync(jsonString);
       }
     }
-
-    print(currentCardsTheme);
-    print(notesTitles);
-
   }
 
   cardsFileExists() async {

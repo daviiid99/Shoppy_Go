@@ -298,7 +298,6 @@ class Setup extends StatefulWidget {
         }
       }
       writeJson();
-      print("se escribio el mapa");
     }
   }
 
