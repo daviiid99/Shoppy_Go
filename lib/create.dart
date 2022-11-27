@@ -54,6 +54,7 @@ class _CreateState extends State<Create>{
   int sending = 0;
   bool isPreviousButton = false;
   int count = 0;
+  bool focusChange = false;
 
   // Set of variables for icons
   IconData send = Icons.send_rounded;
@@ -853,9 +854,6 @@ class _CreateState extends State<Create>{
 
           InkWell(
           child : TextFormField(
-            onTap: (){
-
-            },
             textAlign: TextAlign.left,
             style: TextStyle(color: Colors.black),
             decoration: InputDecoration(
@@ -892,15 +890,16 @@ class _CreateState extends State<Create>{
                   icon: Icon(isTyping ? send : mic,),
                   onPressed: () async {
                     setState(() async {
-                      if (product.text.isNotEmpty){
-                        await addProductToList(product.text);
-                        product.text = "";
-                        if (isTyping){
-                          // no focuse change
-                          if (product.text.length == 0) isTyping = false;
-                          isPreviousButton = true;
-                          FocusManager.instance.primaryFocus?.unfocus();
-                        }
+                      await addProductToList(product.text);
+                      product.text = "";
+                      if (focusChange){
+                        // There was a focuse change before pressing the button
+                        isTyping = false;
+                        focusChange = false;
+                      } else {
+                        FocusManager.instance.primaryFocus?.unfocus();
+                        focusChange = true;
+                        print("2/3");
                       }
                     });
                   },
@@ -914,39 +913,37 @@ class _CreateState extends State<Create>{
           ),
 
             onFocusChange:(_) async{
+            // OnFoucsChage detects when the keyboard is opened or close
 
             setState(() async {
-              // Start typing
 
-              if (!isPreviousButton) {
+              if (focusChange && product.text.isEmpty){
+                // Last time there was a button click that lead to a focuse change
+                isTyping = false;
+                focusChange = false;
+                print("3/3");
+              }
+              else {
                 if (product.text.isEmpty || product.text.isNotEmpty) {
                   // 2 possibilities
                   if (!isTyping) {
                     // Enable keyboard
                     isTyping = true;
+                    print("1/3");
                   } else {
                     // Close keyboard
                     if (product.text.isEmpty) {
                       // User entered a product
                       isTyping = false;
+                      focusChange = false;
                     } else {
                       // There's still content
                       // Await for it to be empty before modifying current state
-                      if (product.text.length == 0) isTyping = false;
-                      count ++;
+                      focusChange = true;
                     }
                   }
                 }
-              } else {
-                if (count == 1){
-                  isPreviousButton = false;
-                  isTyping = true;
-                  count = 0;
-                } else {
-                  count ++;
-                }
               }
-
 
             });
             },
