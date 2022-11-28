@@ -890,16 +890,20 @@ class _CreateState extends State<Create>{
                   icon: Icon(isTyping ? send : mic,),
                   onPressed: () async {
                     setState(() async {
-                      await addProductToList(product.text);
-                      product.text = "";
-                      if (focusChange){
-                        // There was a focuse change before pressing the button
-                        isTyping = false;
-                        focusChange = false;
-                      } else {
-                        FocusManager.instance.primaryFocus?.unfocus();
-                        focusChange = true;
-                      }
+                    if (product.text.isNotEmpty){
+
+
+                    await addProductToList(product.text);
+                    product.text = "";
+                    if (focusChange){
+                    // There was a focuse change before pressing the button
+                    isTyping = false;
+                    focusChange = false;
+                    } else {
+                    FocusManager.instance.primaryFocus?.unfocus();
+                    focusChange = true;
+                    }
+                    }
                     });
                   },
 
